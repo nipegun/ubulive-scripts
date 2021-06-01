@@ -282,11 +282,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Copiando el script de instalación de los o-scripts..."
           echo ""
-          sudo mkdir -p                                                                                                            /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo su -c "echo '#!/bin/sh'                                                                                           > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh"
-          sudo su -c 'echo ""                                                                                                   >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
-          sudo su -c 'echo "curl --silent https://raw.githubusercontent.com/nipegun/o-scripts/master/OScripts-Instalar.sh | sh" >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
-          sudo su -c 'echo "#rm -rf /root/scripts/2-InstalarOScripts.sh"                                                        >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
+          sudo mkdir -p                                                                                                        /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+          sudo su -c "echo '#!/bin/sh'                                                                                       > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh"
+          sudo su -c 'echo ""                                                                                               >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
+          sudo su -c 'echo "wget -O - https://raw.githubusercontent.com/nipegun/o-scripts/master/OScripts-Instalar.sh | sh" >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
+          sudo su -c 'echo "rm -rf /root/scripts/2-InstalarOScripts.sh"                                                     >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
           sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
           sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
