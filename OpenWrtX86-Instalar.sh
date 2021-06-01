@@ -85,7 +85,7 @@ echo ""
      sudo apt-get -y install tar
      echo ""
    fi
-sudo tar -xf /OpenWrt/PartEFI/rootfs.tar.gz -C /OpenWrt/PartExt4/
+sudo tar -xf /OpenWrt/PartOVMF/rootfs.tar.gz -C /OpenWrt/PartExt4/
 
 echo ""
 echo "Configurando la MV de OpenWrt para que pille IP por DHCP"
