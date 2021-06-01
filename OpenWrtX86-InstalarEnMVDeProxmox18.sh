@@ -42,7 +42,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
            10 "Configurar la MV para que pille IP por DHCP" on
            11 "Copiar el script de instalación de paquetes" on
            12 "Copiar el script de instalación de los o-scripts" on
-           13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" off
+           13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
            14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off)
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
@@ -297,11 +297,12 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           sudo su -c "echo '#!/bin/sh'                                                                  > /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh"
           sudo su -c 'echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           sudo su -c 'echo "# Configurar red e interfaces"                                             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "config interface '"'loopback'"'"            > /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "  option ifname '"'lo'"'"                  >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "  option proto '"'static'"'"               >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "  option ipaddr '"'127.0.0.1'"'"           >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "  option netmask '"'255.0.0.0'"'"          >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+          sudo su -c 'echo "'"echo "config interface 'loopback'"        > /etc/config/network"'"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+
+          sudo su -c 'echo "echo "  option ifname '"'lo'"'"              >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+          sudo su -c 'echo "echo "  option proto '"'static'"'"           >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+          sudo su -c 'echo "echo "  option ipaddr '"'127.0.0.1'"'"       >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+          sudo su -c 'echo "echo "  option netmask '"'255.0.0.0'"'"      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           sudo su -c 'echo "echo ""                                      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           sudo su -c 'echo "echo "config interface 'WAN'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           sudo su -c 'echo "echo "  option ifname 'eth0'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
