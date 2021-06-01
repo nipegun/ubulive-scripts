@@ -110,7 +110,17 @@ sudo chmod +x                                           /OpenWrt/PartExt4/root/s
 echo ""
 echo "Copiando el script de preparación de OpenWrt para funcionar como una MV de Proxmox..."
 echo ""
+sudo cp /OpenWrt/PartEFI/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo chmod +x /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 
+echo ""
+echo "Ejecución del script, finalizada."
+echo ""
+echo "Reinicia el sistema con:"
+echo "sudo shutdown -r now"
+echo ""
+echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máquina virtual."
+echo ""
 echo ""
 echo -e "${ColorVerde}Script de instalación de OpenWrt en ordenador UEFI, finalizado${FinColor}"
 echo ""
