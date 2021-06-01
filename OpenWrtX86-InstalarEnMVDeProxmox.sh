@@ -104,7 +104,17 @@ sudo tar -xf /OpenWrt/PartOVMF/rootfs.tar.gz -C /OpenWrt/PartExt4/
 echo ""
 echo "Configurando la MV de OpenWrt para que pille IP por DHCP"
 echo ""
-sudo rm -rf /OpenWrt/PartExt4/etc/config/network
+sudo mkdir /OpenWrt/PartOVMF/scripts/ 2> /dev/null 
+sudo echo "config interface loopback"     > /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option ifname 'lo'"         >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option proto 'static'"      >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option ipaddr '127.0.0.1'"  >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option netmask '255.0.0.0'" >> /OpenWrt/PartOVMF/scripts/network
+sudo echo ""                             >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "config interface 'WAN'"       >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option ifname 'eth0'"       >> /OpenWrt/PartOVMF/scripts/network
+sudo echo "  option proto 'dhcp'"        >> /OpenWrt/PartOVMF/scripts/network
+sudo rm -rf                               /OpenWrt/PartExt4/etc/config/network
 sudo cp /OpenWrt/PartOVMF/scripts/network /OpenWrt/PartExt4/etc/config/
 
 echo ""
@@ -127,6 +137,7 @@ sudo echo '}'                                                                   
 echo ""
 echo "Copiando el script de instalación de paquetes..."
 echo ""
+
 sudo mkdir -p /OpenWrt/PartExt4/root/scripts/
 sudo cp /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
 sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
@@ -152,12 +163,4 @@ echo ""
 echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máquina virtual."
 echo ""
 
-config interface loopback
-  option ifname 'lo'
-  option proto 'static'
-  option ipaddr '127.0.0.1'
-  option netmask '255.0.0.0'
 
-config interface 'WAN'
-  option ifname 'eth0'
-  option proto 'dhcp'
