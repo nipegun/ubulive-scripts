@@ -191,4 +191,18 @@ echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máq
 echo ""
 
 
+#!/bin/sh
 
+rm /root/scripts/o-scripts -R 2> /dev/null
+mkdir /root/scripts 2> /dev/null
+cd /root/scripts
+git clone --depth=1 https://github.com/nipegun/o-scripts
+mkdir -p /root/scripts/o-scripts/Alias/
+rm /root/scripts/o-scripts/.git -R 2> /dev/null
+find /root/scripts/o-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
+/root/scripts/o-scripts/OScripts-CrearAlias.sh
+find /root/scripts/o-scripts/Alias/ -type f -exec chmod +x {} \;
+
+sh -c "echo 'export PATH=$PATH:/root/scripts/o-scripts/Alias/' >> /root/.bashrc"
+
+rm -rf /root/scripts/2-InstalarOScripts.sh
