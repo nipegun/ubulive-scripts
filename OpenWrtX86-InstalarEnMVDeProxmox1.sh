@@ -157,18 +157,18 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/OpenWrt/ 2> /dev/null
           sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                 > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo echo 'terminal_input console serial; terminal_output console serial'                                                            >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo 'set default="0"'                                                                                                          >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo 'set timeout="1"'                                                                                                          >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo "set root='(hd0,2)'"                                                                                                       >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo 'menuentry "OpenWrt" {'                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo '  linux /boot/vmlinuz root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo 'menuentry "OpenWrt (failsafe)" {'                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo '  linux /boot/vmlinuz failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
-          sudo echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
+          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                            >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'set default="0"'                                                                                                          >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'set timeout="1"'                                                                                                          >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo "set root='(hd0,2)'"                                                                                                       >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "OpenWrt" {'                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '  linux /boot/vmlinuz root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "OpenWrt (failsafe)" {'                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '  linux /boot/vmlinuz failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
 
         ;;
 
