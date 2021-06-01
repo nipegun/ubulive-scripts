@@ -23,8 +23,8 @@ echo ""
      echo ""
      echo "  dialog no está instalado. Iniciando su instalación..."
      echo ""
-     apt-get -y update
-     apt-get -y install dialog
+     sudo apt-get -y update
+     sudo apt-get -y install dialog
      echo ""
    fi
 
