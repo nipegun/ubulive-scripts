@@ -81,11 +81,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
           echo "  Formateando las particiones..."
           echo ""
           ## Formatear la partición para EFI como fat32
-             sudo mkfs -t vfat -F 32 -n OVMF $PrimerDisco1
+             sudo mkfs -t vfat -F 32 -n OVMF $PrimerDisco"1"
           ## Formatear la partición para OpenWrt como ext4
-             sudo mkfs -t ext4 -L OpenWrt $PrimerDisco2
+             sudo mkfs -t ext4 -L OpenWrt $PrimerDisco"2"
           ## Formatear la partición para Intercambio como swap
-             sudo mkswap -L Intercambio $PrimerDisco3
+             sudo mkswap -L Intercambio $PrimerDisco"3"
 
         ;;
 
