@@ -120,6 +120,7 @@ sudo cp /OpenWrt/PartOVMF/scripts/network /OpenWrt/PartExt4/etc/config/
 echo ""
 echo "Creando el archivo grub.cfg..."
 echo ""
+sudo mkdir -p /OpenWrt/PartOVMF/EFI/OpenWrt/ 2> /dev/null
 sudo echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                 > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
 sudo echo 'terminal_input console serial; terminal_output console serial'                                                            >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
 sudo echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
@@ -137,8 +138,10 @@ sudo echo '}'                                                                   
 echo ""
 echo "Copiando el script de instalación de paquetes..."
 echo ""
-sudo mkdir /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-sudo echo "opkg update"                                  > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+sudo echo '#!/bin/sh'                                    > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg update"                                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
 sudo echo "opkg install nano"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
 sudo echo "opkg install mc"                             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
 sudo echo "opkg install pciutils"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
@@ -172,6 +175,22 @@ sudo chmod +x                                           /OpenWrt/PartExt4/root/s
 echo ""
 echo "Copiando el script de instalación de los o-scripts..."
 echo ""
+sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+sudo echo '#!/bin/sh'                                                                         > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "rm /root/scripts/o-scripts -R 2> /dev/null"                                       >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "mkdir /root/scripts 2> /dev/null"                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "cd /root/scripts"                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "git clone --depth=1 https://github.com/nipegun/o-scripts"                         >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "mkdir -p /root/scripts/o-scripts/Alias/"                                          >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "rm /root/scripts/o-scripts/.git -R 2> /dev/null"                                  >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo 'find /root/scripts/o-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;'         >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "/root/scripts/o-scripts/OScripts-CrearAlias.sh"                                   >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "find /root/scripts/o-scripts/Alias/ -type f -exec chmod +x {} \;"                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo 'sh -c "echo 'export PATH=$PATH:/root/scripts/o-scripts/Alias/' >> /root/.bashrc"' >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+sudo echo "rm -rf /root/scripts/2-InstalarOScripts.sh"                                       >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
 sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
@@ -191,18 +210,4 @@ echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máq
 echo ""
 
 
-#!/bin/sh
 
-rm /root/scripts/o-scripts -R 2> /dev/null
-mkdir /root/scripts 2> /dev/null
-cd /root/scripts
-git clone --depth=1 https://github.com/nipegun/o-scripts
-mkdir -p /root/scripts/o-scripts/Alias/
-rm /root/scripts/o-scripts/.git -R 2> /dev/null
-find /root/scripts/o-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;
-/root/scripts/o-scripts/OScripts-CrearAlias.sh
-find /root/scripts/o-scripts/Alias/ -type f -exec chmod +x {} \;
-
-sh -c "echo 'export PATH=$PATH:/root/scripts/o-scripts/Alias/' >> /root/.bashrc"
-
-rm -rf /root/scripts/2-InstalarOScripts.sh
