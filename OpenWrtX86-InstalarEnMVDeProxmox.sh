@@ -137,8 +137,35 @@ sudo echo '}'                                                                   
 echo ""
 echo "Copiando el script de instalación de paquetes..."
 echo ""
-
-sudo mkdir -p /OpenWrt/PartExt4/root/scripts/
+sudo mkdir /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+sudo echo "opkg update"                                  > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install nano"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install mc"                             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install pciutils"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install wget"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install git-http"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install tcpdump"                        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install msmtp"                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install ca-bundle"                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install ca-certificates"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install libustream-openssl"             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install hostapd-openssl"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install kmod-mac80211"                  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install kmod-ath"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install kmod-ath9k"                     >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install kmod-ath10k-ct"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install ath10k-firmware-qca9984-ct-htt" >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-base-es"              >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-firewall-es"          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-adblock-es"           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-qos-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-wifischedule-es"      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-wireguard-es"         >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "opkg install luci-i18n-wol-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo echo "reboot"                                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+sudo mkdir -p                                           /OpenWrt/PartExt4/root/scripts/
 sudo cp /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
 sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
 
@@ -164,30 +191,4 @@ echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máq
 echo ""
 
 
-opkg update
-opkg install nano
-opkg install mc
-opkg install pciutils
-opkg install wget
-opkg install git-http
-opkg install tcpdump
-opkg install msmtp
-opkg install ca-bundle
-opkg install ca-certificates
-opkg install libustream-openssl
-opkg install hostapd-openssl
-opkg install kmod-mac80211
-opkg install kmod-ath
-opkg install kmod-ath9k
-opkg install kmod-ath10k-ct
-opkg install ath10k-firmware-qca9984-ct-htt
-opkg install luci-i18n-base-es
-opkg install luci-i18n-firewall-es
-opkg install luci-i18n-adblock-es
-opkg install luci-i18n-qos-es
-opkg install luci-i18n-wifischedule-es
-opkg install luci-i18n-wireguard-es
-opkg install luci-i18n-wol-es
 
-rm -rf /root/scripts/1-InstalarPaquetes.sh
-reboot
