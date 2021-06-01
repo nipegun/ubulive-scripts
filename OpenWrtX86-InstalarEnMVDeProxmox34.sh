@@ -15,7 +15,7 @@ FinColor="\033[0m"
 PrimerDisco="/dev/sda"
 
 echo ""
-echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
+echo -e "${ColorVerde}  Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
 ## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
@@ -125,7 +125,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | head -n 1 | cut -d'/' -f 5)
 
           echo ""
-          echo "La última versión estable de OpenWrt es la $VersOpenWrt"
+          echo "  La última versión estable de OpenWrt es la $VersOpenWrt"
           echo ""
 
         ;;
@@ -133,11 +133,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
         6)
 
           echo ""
-          echo "Montando las particiones..."
+          echo "  Montando las particiones..."
           echo ""
-          sudo mkdir -p /OpenWrt/PartOVMF/
+          sudo mkdir -p /OpenWrt/PartOVMF/ 2> /dev/null
           sudo mount -t auto /dev/sda1 /OpenWrt/PartOVMF/
-          sudo mkdir -p /OpenWrt/PartExt4/
+          sudo mkdir -p /OpenWrt/PartExt4/ 2> /dev/null
           sudo mount -t auto /dev/sda2 /OpenWrt/PartExt4/
 
         ;;
@@ -148,7 +148,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Descargando grub para efi..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/Boot/ 2> /dev/null
-          sudo wget http:///hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
+          rm -rf /OpenWrt/PartOVMF/EFI/Boot/*
+          sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
 
         ;;
 
@@ -177,7 +178,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
         9)
 
           echo ""
-          echo " Creando la estructura de carpetas y archivos en la partición ext4 con OpenWrt $VersOpenWrt"
+          echo "  Creando la estructura de carpetas y archivos en la partición ext4 con OpenWrt $VersOpenWrt"
           echo ""
           echo ""
           echo "  Borrando el contenido de la partición ext4..."
@@ -187,18 +188,17 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Bajando y posicionando el Kernel..."
           echo ""
-          sudo mkdir -p /OpenWrt/PartExt4/boot
-
+          sudo mkdir -p /OpenWrt/PartExt4/boot 2> /dev/null
           sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-vmlinuz -O /OpenWrt/PartExt4/boot/vmlinuz
 
           echo ""
-          echo "Bajando el archivo con el sistema root..."
+          echo "  Bajando el archivo con el sistema root..."
           echo ""
-          rm -rf /OpenWrt/PartOVMF/rootfs.tar.gz
+          sudo rm -rf /OpenWrt/PartOVMF/rootfs.tar.gz
           sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-rootfs.tar.gz -O /OpenWrt/PartOVMF/rootfs.tar.gz
 
           echo ""
-          echo "Descomprimiendo el sistema de archivos root en la partición ext4..."
+          echo "  Descomprimiendo el sistema de archivos root en la partición ext4..."
           echo ""
 
           ## Comprobar si el paquete tar está instalado. Si no lo está, instalarlo.
