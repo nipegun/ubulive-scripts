@@ -166,7 +166,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           sudo su -c "echo 'menuentry "OpenWrt" {'                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '  linux /boot/vmlinuz root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "OpenWrt (failsafe)" {'                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                     >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '  linux /boot/vmlinuz failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
 
