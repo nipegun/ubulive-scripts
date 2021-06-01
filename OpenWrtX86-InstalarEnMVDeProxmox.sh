@@ -5,24 +5,27 @@
 # Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
-#--------------------------------------------------------------------------------------------
-#  Script de NiPeGun para instalar OpenWrt en un ordenador UEFI iniciando desde Ubuntu Live 
-#--------------------------------------------------------------------------------------------
+#----------------------------------------------------------------------------------------------------------
+#  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
+#----------------------------------------------------------------------------------------------------------
 
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
+PrimerDisco="/dev/sda"
+
 echo ""
-echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt para máquinas virtuales de Proxmox...${FinColor}"
+echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
 ## Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
    if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
      echo ""
-     echo "curl no está instalado. Iniciando su instalación..."
+     echo "  curl no está instalado. Iniciando su instalación..."
      echo ""
      sudo apt-get -y update
      sudo apt-get -y install curl
+     echo ""
    fi
   
 VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | head -n 1 | cut -d'/' -f 5)
@@ -36,6 +39,17 @@ echo "Creando carpetas para montar las particiones..."
 echo ""
 sudo mkdir -p /OpenWrt/PartOVMF/
 sudo mkdir -p /OpenWrt/PartExt4/
+
+echo ""
+echo "Creando las particiones..."
+echo ""
+  ## Crear tabla de particiones GPT
+  echo "type=83" | sudo sfdisk $PrimerDisco
+  ## Crear la partición OVMF
+     parted $PrimerDisco mklabel gpt mkpart P1 ext4 1MiB 8MiB
+  ## Crear la partición ext4
+     parted -a optimal $PrimerDisco mkpart primary 0% 4096MB
+
 
 echo ""
 echo "Montando las particiones..."
