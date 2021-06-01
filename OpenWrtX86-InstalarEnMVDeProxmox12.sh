@@ -41,7 +41,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
             9 "Crear la estructura de carpetas y archivos en ext4" on
            10 "Configurar la MV para que pille IP por DHCP" on
            11 "Copiar el script de instalación de paquetes" on
-           12 "Copiar el script de instalación de los o-scripts" off
+           12 "Copiar el script de instalación de los o-scripts" on
            13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" off
            14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off)
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
@@ -265,7 +265,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           sudo su -c 'echo "opkg install luci-i18n-wireguard-es"         >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
           sudo su -c 'echo "opkg install luci-i18n-wol-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
           sudo su -c 'echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "#rm -rf /root/scripts/1-InstalarPaquetes.sh" >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
           sudo su -c 'echo "reboot"                                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
           sudo mkdir -p                                           /OpenWrt/PartExt4/root/scripts/
           sudo cp /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
@@ -278,22 +278,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           echo ""
           echo "  Copiando el script de instalación de los o-scripts..."
           echo ""
-          sudo mkdir -p                                                                                   /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo echo '#!/bin/sh'                                                                         > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "rm /root/scripts/o-scripts -R 2> /dev/null"                                       >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "mkdir /root/scripts 2> /dev/null"                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "cd /root/scripts"                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "git clone --depth=1 https://github.com/nipegun/o-scripts"                         >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "mkdir -p /root/scripts/o-scripts/Alias/"                                          >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "rm /root/scripts/o-scripts/.git -R 2> /dev/null"                                  >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo 'find /root/scripts/o-scripts/ -type f -iname "*.sh" -exec chmod +x {} \;'         >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "/root/scripts/o-scripts/OScripts-CrearAlias.sh"                                   >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "find /root/scripts/o-scripts/Alias/ -type f -exec chmod +x {} \;"                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo 'sh -c "echo 'export PATH=$PATH:/root/scripts/o-scripts/Alias/' >> /root/.bashrc"' >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
-          sudo echo "rm -rf /root/scripts/2-InstalarOScripts.sh"                                       >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
+          sudo mkdir -p                                                                                                            /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+          sudo su -c "echo '#!/bin/sh'                                                                                           > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh"
+          sudo su -c 'echo ""                                                                                                   >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
+          sudo su -c 'echo "curl --silent https://raw.githubusercontent.com/nipegun/o-scripts/master/OScripts-Instalar.sh | sh" >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
+          sudo su -c 'echo "#rm -rf /root/scripts/2-InstalarOScripts.sh"                                                        >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
           sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
           sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
