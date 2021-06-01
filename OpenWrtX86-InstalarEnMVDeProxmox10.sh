@@ -219,14 +219,14 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           echo ""
           sudo mkdir /OpenWrt/PartOVMF/scripts/ 2> /dev/null
           sudo su -c 'echo "config interface loopback"       > /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option ifname ''lo''"         >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option proto ''static''"      >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option ipaddr ''127.0.0.1''"  >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option netmask ''255.0.0.0''" >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option ifname '"'lo'"'"         >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option proto '"'static'"'"      >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option ipaddr '"'127.0.0.1'"'"  >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option netmask '"'255.0.0.0'"'" >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo ""                               >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "config interface ''WAN''"       >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option ifname ''eth0''"       >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "  option proto ''dhcp''"        >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "config interface '"'WAN'"'"       >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option ifname '"'eth0'"'"       >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "  option proto '"'dhcp'"'"        >> /OpenWrt/PartOVMF/scripts/network'
           sudo rm -rf                               /OpenWrt/PartExt4/etc/config/network
           sudo cp /OpenWrt/PartOVMF/scripts/network /OpenWrt/PartExt4/etc/config/
 
