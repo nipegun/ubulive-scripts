@@ -135,3 +135,16 @@ echo ""
 echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máquina virtual."
 echo ""
 
+serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off
+terminal_input console serial; terminal_output console serial
+
+set default="0"
+set timeout="1"
+set root='(hd0,2)'
+
+menuentry "OpenWrt" {
+  linux /boot/vmlinuz root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd
+}
+menuentry "OpenWrt (failsafe)" {
+  linux /boot/vmlinuz failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd
+}
