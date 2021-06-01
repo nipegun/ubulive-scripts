@@ -70,8 +70,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           sudo rm -rf /OpenWrt/PartOVMF/*
           sudo rm -rf /OpenWrt/PartExt4/*
-          sudo ummount $PrimerDisco"1"
-          sudo ummount $PrimerDisco"2"
+          sudo umount $PrimerDisco"1"
+          sudo umount $PrimerDisco"2"
           ## Crear tabla de particiones GPT
              sudo parted -s $PrimerDisco mklabel gpt
           ## Crear la partición OVMF
