@@ -57,6 +57,10 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
 
+          sudo mkdir -p /OpenWrt/PartOVMF/
+          sudo mount -t auto /dev/sda1 /OpenWrt/PartOVMF/
+          sudo mkdir -p /OpenWrt/PartExt4/
+          sudo mount -t auto /dev/sda2 /OpenWrt/PartExt4/
         ;;
 
         2)
@@ -64,6 +68,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
           echo ""
           echo "  Creando las particiones..."
           echo ""
+          sudo ummount /OpenWrt/PartOVMF/
+          sudo ummount /OpenWrt/PartExt4/
           ## Crear tabla de particiones GPT
              sudo parted -s $PrimerDisco mklabel gpt
           ## Crear la partición OVMF
@@ -140,7 +146,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
           echo "  Descargando grub para efi..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/Boot/ 2> /dev/null
-          wget http:///hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
+          sudo wget http:///hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
 
         ;;
 
