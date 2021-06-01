@@ -68,6 +68,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Creando las particiones..."
           echo ""
+          rm -rf /OpenWrt/PartOVMF/*
+          rn -rf /OpenWrt/PartExt4/*
           sudo ummount /OpenWrt/PartOVMF/
           sudo ummount /OpenWrt/PartExt4/
           ## Crear tabla de particiones GPT
