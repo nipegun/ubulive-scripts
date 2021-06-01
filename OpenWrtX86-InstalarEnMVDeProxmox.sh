@@ -164,3 +164,30 @@ echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máq
 echo ""
 
 
+opkg update
+opkg install nano
+opkg install mc
+opkg install pciutils
+opkg install wget
+opkg install git-http
+opkg install tcpdump
+opkg install msmtp
+opkg install ca-bundle
+opkg install ca-certificates
+opkg install libustream-openssl
+opkg install hostapd-openssl
+opkg install kmod-mac80211
+opkg install kmod-ath
+opkg install kmod-ath9k
+opkg install kmod-ath10k-ct
+opkg install ath10k-firmware-qca9984-ct-htt
+opkg install luci-i18n-base-es
+opkg install luci-i18n-firewall-es
+opkg install luci-i18n-adblock-es
+opkg install luci-i18n-qos-es
+opkg install luci-i18n-wifischedule-es
+opkg install luci-i18n-wireguard-es
+opkg install luci-i18n-wol-es
+
+rm -rf /root/scripts/1-InstalarPaquetes.sh
+reboot
