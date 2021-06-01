@@ -19,7 +19,7 @@ echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt X86 para m�
 echo ""
 
 ## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
-   if [[ $(sudo dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
+   if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
      echo ""
      echo "  dialog no está instalado. Iniciando su instalación..."
      echo ""
