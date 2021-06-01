@@ -297,7 +297,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           sudo su -c "echo '#!/bin/sh'                                                                  > /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh"
           sudo su -c 'echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           sudo su -c 'echo "# Configurar red e interfaces"                                             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
-          sudo su -c 'echo "echo "'"config interface 'loopback'        > /etc/config/network"'"           >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
+          sudo su -c 'echo "echo "'"config interface 'loopback'"'"        > /etc/config/network"           >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh'
           
 
 
