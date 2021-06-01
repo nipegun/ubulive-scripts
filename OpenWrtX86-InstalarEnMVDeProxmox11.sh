@@ -40,7 +40,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
             8 "Crear el archivo de configuración para Grub" on
             9 "Crear la estructura de carpetas y archivos en ext4" on
            10 "Configurar la MV para que pille IP por DHCP" on
-           11 "Copiar el script de instalación de paquetes" off
+           11 "Copiar el script de instalación de paquetes" on
            12 "Copiar el script de instalación de los o-scripts" off
            13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" off
            14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off)
@@ -238,35 +238,35 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
           echo "  Copiando el script de instalación de paquetes..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo echo '#!/bin/sh'                                    > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg update"                                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install nano"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install mc"                             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install pciutils"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install wget"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install git-http"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install tcpdump"                        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install msmtp"                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install ca-bundle"                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install ca-certificates"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install libustream-openssl"             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install hostapd-openssl"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install kmod-mac80211"                  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install kmod-ath"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install kmod-ath9k"                     >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install kmod-ath10k-ct"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install ath10k-firmware-qca9984-ct-htt" >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-base-es"              >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-firewall-es"          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-adblock-es"           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-qos-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-wifischedule-es"      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-wireguard-es"         >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "opkg install luci-i18n-wol-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
-          sudo echo "reboot"                                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+          sudo su -c "echo '#!/bin/sh'                                    > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh"
+          sudo su -c 'echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg update"                                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install nano"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install mc"                             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install pciutils"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install wget"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install git-http"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install tcpdump"                        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install msmtp"                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install ca-bundle"                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install ca-certificates"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install libustream-openssl"             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install hostapd-openssl"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install kmod-mac80211"                  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install kmod-ath"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install kmod-ath9k"                     >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install kmod-ath10k-ct"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install ath10k-firmware-qca9984-ct-htt" >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-base-es"              >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-firewall-es"          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-adblock-es"           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-qos-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-wifischedule-es"      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-wireguard-es"         >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "opkg install luci-i18n-wol-es"               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo ""                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          sudo su -c 'echo "reboot"                                      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
           sudo mkdir -p                                           /OpenWrt/PartExt4/root/scripts/
           sudo cp /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
           sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
