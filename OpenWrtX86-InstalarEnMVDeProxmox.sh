@@ -152,3 +152,12 @@ echo ""
 echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máquina virtual."
 echo ""
 
+config interface loopback
+  option ifname 'lo'
+  option proto 'static'
+  option ipaddr '127.0.0.1'
+  option netmask '255.0.0.0'
+
+config interface 'WAN'
+  option ifname 'eth0'
+  option proto 'dhcp'
