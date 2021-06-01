@@ -175,7 +175,7 @@ sudo chmod +x                                           /OpenWrt/PartExt4/root/s
 echo ""
 echo "Copiando el script de instalación de los o-scripts..."
 echo ""
-sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+sudo mkdir -p                                                                                   /OpenWrt/PartOVMF/scripts/ 2> /dev/null
 sudo echo '#!/bin/sh'                                                                         > /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
 sudo echo ""                                                                                 >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
 sudo echo "rm /root/scripts/o-scripts -R 2> /dev/null"                                       >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh
@@ -194,9 +194,98 @@ sudo echo "rm -rf /root/scripts/2-InstalarOScripts.sh"                          
 sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
+
 echo ""
 echo "Copiando el script de preparación de OpenWrt para funcionar como una MV de Proxmox..."
 echo ""
+sudo mkdir -p                                                                            /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+sudo echo '#!/bin/sh'                                                                  > /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "# Configurar red e interfaces"                                             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config interface 'loopback'"            > /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ifname 'lo'"                  >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option proto 'static'"               >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ipaddr '127.0.0.1'"           >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option netmask '255.0.0.0'"          >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo ""                                      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config interface 'WAN'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ifname 'eth0'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option proto 'static'"               >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option gateway '192.168.0.1'"        >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ipaddr '192.168.0.201'"       >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option netmask '255.255.255.0'"      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list dns '1.1.1.1'"                  >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo ""                                      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config interface 'LAN'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option type 'bridge'"                >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ifname 'eth1 eth2 eth3 eth4'" >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option proto 'static'"               >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option ipaddr '192.168.1.1'"         >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option netmask '255.255.255.0'"      >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list dns '1.1.1.1'"                  >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option delegate '0'"                 >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option force_link '0'"               >> /etc/config/network"       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "# Permitir SSH desde WAN"                                                  >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config rule"                    >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option name 'Allow-SSH-WAN'"  >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option target 'ACCEPT'"       >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list proto 'tcp'"             >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option dest_port '22'"        >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option src 'wan'"             >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "# Permitir LUCI desde WAN"                                                 >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config rule"                    >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option name 'Allow-LUCI-WAN'" >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option target 'ACCEPT'"       >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list proto 'tcp'"             >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option dest_port '80'"        >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option src 'wan'"             >> /etc/config/firewall"             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "# Adblock"                                                                 >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "mkdir -p /root/logs/dns/"                                                  >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config adblock 'global'"                      > /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_dnsfilereset '0'"               >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_backup '1'"                     >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_maxqueue '4'"                   >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_dns 'dnsmasq'"                  >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_fetchutil 'uclient-fetch'"      >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_report '1'"                     >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_mail '1'"                       >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_mailreceiver 'mail@gmail.com'"  >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_dnsflush '1'"                   >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_mailtopic 'AdBlock de OpenWrt'" >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_debug '1'"                      >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option adb_forcedns '1'"                   >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'adaway'"                 >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'adguard'"                >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'android_tracking'"       >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'anti_ad'"                >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'disconnect'"             >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'firetv_tracking'"        >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'malwaredomains'"         >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'malwarelist'"            >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'notracking'"             >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'openphish'"              >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'phishing_army'"          >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'spam404'"                >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'stopforumspam'"          >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_sources 'whocares'"               >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_safesearch '0'"                   >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_reportdir '/root/logs/dns'"       >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_repiface 'br-LAN'"                >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  list adb_enabled '1'"                      >> /etc/config/adblock" >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "# DHCP en LAN"                                                             >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "config dhcp 'LAN'"        >> /etc/config/dhcp"                       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option start '100'"     >> /etc/config/dhcp"                       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option leasetime '12h'" >> /etc/config/dhcp"                       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option interface 'LAN'" >> /etc/config/dhcp"                       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "echo "  option limit '199'"     >> /etc/config/dhcp"                       >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "rm -rf /root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh"                  >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo ""                                                                          >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo echo "poweroff"                                                                  >> /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 sudo cp /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 sudo chmod +x                                                         /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 
@@ -210,90 +299,3 @@ echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máq
 echo ""
 
 
-#!/bin/sh
-
-# Configurar red e interfaces
-echo "config interface 'loopback'"            > /etc/config/network
-echo "  option ifname 'lo'"                  >> /etc/config/network
-echo "  option proto 'static'"               >> /etc/config/network
-echo "  option ipaddr '127.0.0.1'"           >> /etc/config/network
-echo "  option netmask '255.0.0.0'"          >> /etc/config/network
-echo ""                                      >> /etc/config/network
-echo "config interface 'WAN'"                >> /etc/config/network
-echo "  option ifname 'eth0'"                >> /etc/config/network
-echo "  option proto 'static'"               >> /etc/config/network
-echo "  option gateway '192.168.0.1'"        >> /etc/config/network
-echo "  option ipaddr '192.168.0.201'"       >> /etc/config/network
-echo "  option netmask '255.255.255.0'"      >> /etc/config/network
-echo "  list dns '1.1.1.1'"                  >> /etc/config/network
-echo ""                                      >> /etc/config/network
-echo "config interface 'LAN'"                >> /etc/config/network
-echo "  option type 'bridge'"                >> /etc/config/network
-echo "  option ifname 'eth1 eth2 eth3 eth4'" >> /etc/config/network
-echo "  option proto 'static'"               >> /etc/config/network
-echo "  option ipaddr '192.168.1.1'"         >> /etc/config/network
-echo "  option netmask '255.255.255.0'"      >> /etc/config/network
-echo "  list dns '1.1.1.1'"                  >> /etc/config/network
-echo "  option delegate '0'"                 >> /etc/config/network
-echo "  option force_link '0'"               >> /etc/config/network
-
-# Permitir SSH desde WAN
-echo "config rule"                    >> /etc/config/firewall
-echo "  option name 'Allow-SSH-WAN'"  >> /etc/config/firewall
-echo "  option target 'ACCEPT'"       >> /etc/config/firewall
-echo "  list proto 'tcp'"             >> /etc/config/firewall
-echo "  option dest_port '22'"        >> /etc/config/firewall
-echo "  option src 'wan'"             >> /etc/config/firewall
-
-# Permitir LUCI desde WAN
-echo "config rule"                    >> /etc/config/firewall
-echo "  option name 'Allow-LUCI-WAN'" >> /etc/config/firewall
-echo "  option target 'ACCEPT'"       >> /etc/config/firewall
-echo "  list proto 'tcp'"             >> /etc/config/firewall
-echo "  option dest_port '80'"        >> /etc/config/firewall
-echo "  option src 'wan'"             >> /etc/config/firewall
-
-# Adblock
-mkdir -p /root/logs/dns/
-echo "config adblock 'global'"                      > /etc/config/adblock
-echo "  option adb_dnsfilereset '0'"               >> /etc/config/adblock
-echo "  option adb_backup '1'"                     >> /etc/config/adblock
-echo "  option adb_maxqueue '4'"                   >> /etc/config/adblock
-echo "  option adb_dns 'dnsmasq'"                  >> /etc/config/adblock
-echo "  option adb_fetchutil 'uclient-fetch'"      >> /etc/config/adblock
-echo "  option adb_report '1'"                     >> /etc/config/adblock
-echo "  option adb_mail '1'"                       >> /etc/config/adblock
-echo "  option adb_mailreceiver 'mail@gmail.com'"  >> /etc/config/adblock
-echo "  option adb_dnsflush '1'"                   >> /etc/config/adblock
-echo "  option adb_mailtopic 'AdBlock de OpenWrt'" >> /etc/config/adblock
-echo "  option adb_debug '1'"                      >> /etc/config/adblock
-echo "  option adb_forcedns '1'"                   >> /etc/config/adblock
-echo "  list adb_sources 'adaway'"                 >> /etc/config/adblock
-echo "  list adb_sources 'adguard'"                >> /etc/config/adblock
-echo "  list adb_sources 'android_tracking'"       >> /etc/config/adblock
-echo "  list adb_sources 'anti_ad'"                >> /etc/config/adblock
-echo "  list adb_sources 'disconnect'"             >> /etc/config/adblock
-echo "  list adb_sources 'firetv_tracking'"        >> /etc/config/adblock
-echo "  list adb_sources 'malwaredomains'"         >> /etc/config/adblock
-echo "  list adb_sources 'malwarelist'"            >> /etc/config/adblock
-echo "  list adb_sources 'notracking'"             >> /etc/config/adblock
-echo "  list adb_sources 'openphish'"              >> /etc/config/adblock
-echo "  list adb_sources 'phishing_army'"          >> /etc/config/adblock
-echo "  list adb_sources 'spam404'"                >> /etc/config/adblock
-echo "  list adb_sources 'stopforumspam'"          >> /etc/config/adblock
-echo "  list adb_sources 'whocares'"               >> /etc/config/adblock
-echo "  list adb_safesearch '0'"                   >> /etc/config/adblock
-echo "  list adb_reportdir '/root/logs/dns'"       >> /etc/config/adblock
-echo "  list adb_repiface 'br-LAN'"                >> /etc/config/adblock
-echo "  list adb_enabled '1'"                      >> /etc/config/adblock
-
-# DHCP en LAN
-echo "config dhcp 'LAN'"        >> /etc/config/dhcp
-echo "  option start '100'"     >> /etc/config/dhcp
-echo "  option leasetime '12h'" >> /etc/config/dhcp
-echo "  option interface 'LAN'" >> /etc/config/dhcp
-echo "  option limit '199'"     >> /etc/config/dhcp
-
-rm -rf /root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
-
-poweroff
