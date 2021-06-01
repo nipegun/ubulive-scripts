@@ -13,7 +13,7 @@ ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
 echo ""
-echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt en ordenador UEFI...${FinColor}"
+echo -e "${ColorVerde}Iniciando el script de instalación de OpenWrt para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
 ## Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
@@ -106,12 +106,11 @@ echo ""
 sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
-
 echo ""
 echo "Copiando el script de preparación de OpenWrt para funcionar como una MV de Proxmox..."
 echo ""
-sudo cp /OpenWrt/PartEFI/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
-sudo chmod +x /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo cp /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+sudo chmod +x                                                         /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 
 echo ""
 echo "Ejecución del script, finalizada."
@@ -121,6 +120,4 @@ echo "sudo shutdown -r now"
 echo ""
 echo "Recuerda quitar el DVD de la unidad antes de que vuelve a arrancar la máquina virtual."
 echo ""
-echo ""
-echo -e "${ColorVerde}Script de instalación de OpenWrt en ordenador UEFI, finalizado${FinColor}"
-echo ""
+
