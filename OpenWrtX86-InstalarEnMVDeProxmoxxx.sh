@@ -29,7 +29,7 @@ echo ""
      echo ""
    fi
 
-menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
+menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 90 16)
   opciones=(1 "Hacer copia de seguridad de la instalación anterior" off
             2 "Crear las particiones" on
             3 "Formatear las particiones" on
@@ -156,7 +156,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
           echo "  Creando el archivo de configuración para Grub (grub.cfg)..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/OpenWrt/ 2> /dev/null
-          sudo echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                 > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
+          su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                 > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo echo 'terminal_input console serial; terminal_output console serial'                                                            >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
           sudo echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
           sudo echo 'set default="0"'                                                                                                          >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg
