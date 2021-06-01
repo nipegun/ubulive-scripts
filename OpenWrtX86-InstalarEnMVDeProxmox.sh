@@ -43,7 +43,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
            11 "Copiar el script de instalación de paquetes" on
            12 "Copiar el script de instalación de los o-scripts" on
            13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
-           14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off)
+           14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off
+           15 "Apagar la máquina virtual" off)
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
 
@@ -309,6 +310,17 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Moviendo copia de seguridad de la instalación anterior a la instalación nueva..."
           echo ""
+
+        ;;
+
+        15)
+
+          echo ""
+          echo "  Apagando la máquina virtual..."
+          echo ""
+
+          #eject
+          shutdown -h now
 
         ;;
 
