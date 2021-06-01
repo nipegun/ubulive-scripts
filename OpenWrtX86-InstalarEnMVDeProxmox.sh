@@ -29,7 +29,7 @@ echo ""
      echo ""
    fi
 
-menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 76 16)
+menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 86 16)
   opciones=(1 "Hacer copia de seguridad de la instalación anterior" off
             2 "Crear las particiones" on
             3 "Formatear las particiones" on
@@ -43,9 +43,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 76 16)
            11 "Copiar el script de instalación de paquetes" off
            12 "Copiar el script de instalación de los o-scripts" off
            13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" off
-           14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off
-           15 "x" off
-           16 "x" off)
+           14 "Mover copia de seguridad de la instalación anterior a la nueva instalción" off)
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
 
@@ -398,18 +396,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 76 16)
           echo ""
           echo "  Moviendo copia de seguridad de la instalación anterior a la instalación nueva..."
           echo ""
-
-        ;;
-
-        15)
-
-        ;;
-
-        16)
-
-        ;;
-
-        17)
 
         ;;
 
