@@ -7,8 +7,10 @@
 
 #----------------------------------------------------------------------------------------------------------
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
+#
+# Ejecución remota:
+# curl -s | bash
 #----------------------------------------------------------------------------------------------------------
-
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
