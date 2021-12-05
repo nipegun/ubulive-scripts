@@ -165,19 +165,19 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Creando el archivo de configuración para Grub (grub.cfg)..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/OpenWrt/ 2> /dev/null
-          sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                 > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                            >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'set default="'"0"'"'                                                                                                      >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'set timeout="'"1"'"'                                                                                                      >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                                     >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg'
-          sudo su -c "echo ''                                                                                                                         >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "'"OpenWrt"'" {'                                                                                                >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '  linux /boot/vmlinuz root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                     >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '  linux /boot/vmlinuz failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '}'                                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                            > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                                       >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'set default="'"0"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'set timeout="'"1"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                                              >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg'
+          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "'"OpenWrt"'" {'                                                                                                           >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '  linux /boot/generic-kernel.bin root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                                >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '  linux /boot/generic-kernel.bin failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
 
         ;;
 
@@ -195,13 +195,13 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Bajando y posicionando el Kernel..."
           echo ""
           sudo mkdir -p /OpenWrt/PartExt4/boot 2> /dev/null
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-vmlinuz -O /OpenWrt/PartExt4/boot/vmlinuz
+          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
 
           echo ""
           echo "  Bajando el archivo con el sistema root..."
           echo ""
           sudo rm -rf /OpenWrt/PartOVMF/rootfs.tar.gz
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-rootfs.tar.gz -O /OpenWrt/PartOVMF/rootfs.tar.gz
+          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-rootfs.tar.gz -O /OpenWrt/PartOVMF/rootfs.tar.gz
 
           echo ""
           echo "  Descomprimiendo el sistema de archivos root en la partición ext4..."
@@ -226,12 +226,12 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Configurando la MV de OpenWrt para que pille IP por DHCP"
           echo ""
           sudo mkdir /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo su -c 'echo "config interface loopback"       > /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "config interface loopback"         > /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option ifname '"'lo'"'"         >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option proto '"'static'"'"      >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option ipaddr '"'127.0.0.1'"'"  >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option netmask '"'255.0.0.0'"'" >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo ""                               >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo ""                                 >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "config interface '"'WAN'"'"       >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option ifname '"'eth0'"'"       >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option proto '"'dhcp'"'"        >> /OpenWrt/PartOVMF/scripts/network'
