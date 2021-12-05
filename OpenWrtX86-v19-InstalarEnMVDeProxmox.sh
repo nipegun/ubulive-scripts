@@ -9,7 +9,7 @@
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-InstalarEnMVDeProxmox.sh | bash
+# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v19-InstalarEnMVDeProxmox.sh | bash
 #-------------------------------------------------------------------------------------------------------------------
 
 ColorVerde="\033[1;32m"
@@ -128,7 +128,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
                echo ""
              fi
   
-          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | head -n 1 | cut -d'/' -f 5)
+          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep -v 21 | head -n 1 | cut -d'/' -f 5)
 
           echo ""
           echo "  La última versión estable de OpenWrt es la $VersOpenWrt"
