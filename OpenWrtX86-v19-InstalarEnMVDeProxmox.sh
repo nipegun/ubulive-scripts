@@ -131,7 +131,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep 19 | head -n 1 | cut -d'/' -f 5)
 
           echo ""
-          echo "  La última versión estable de OpenWrt es la $VersOpenWrt"
+          echo "  La última versión estable de OpenWrt 19 es la $VersOpenWrt"
           echo ""
 
         ;;
