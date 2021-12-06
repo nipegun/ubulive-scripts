@@ -305,7 +305,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Copiando el script de preparación de OpenWrt para funcionar como una MV de Proxmox..."
           echo ""
           sudo mkdir -p                                                                                   /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarComo-MVdeProxmox.sh -O /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarOpenWrt21ComoMVdeProxmox.sh -O /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
           sudo cp /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
           sudo chmod +x                                                         /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 
