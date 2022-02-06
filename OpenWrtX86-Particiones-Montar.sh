@@ -30,4 +30,5 @@
   echo ""
   echo "  Abriendo nautilus en la carpeta /OpenWrt..."
   echo ""
+  sudo nautilus /OpenWrt
 
