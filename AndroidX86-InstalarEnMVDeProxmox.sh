@@ -44,8 +44,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
      6 "Determinar la última versión de AndroidX86" on
      7 "Descargar la última versión de AndroidX86" on
      8 "Preparar los archivos de la particion ext4" on
-     9 "Preparando los archivos de la particion EFI (Grub y otros)" on
-    10 "Borrando archivos sobrantes" on
+     9 "Preparar los archivos de la particion EFI (Grub y otros)" on
+    10 "Borrar archivos sobrantes" on
     11 "" off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
