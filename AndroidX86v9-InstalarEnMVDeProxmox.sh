@@ -5,20 +5,21 @@
 # Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
-#-----------------------------------------------------------------------------------------------------------------------
-#  Script de NiPeGun para instalar AndroidX86-v9 en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
+#----------------------------------------------------------------------------------------------------------------------
+#  Script de NiPeGun para instalar AndroidX86 en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v21-InstalarEnMVDeProxmox.sh | bash
-#-----------------------------------------------------------------------------------------------------------------------
+# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/AndroidX86-InstalarEnMVDeProxmox.sh | bash
+#----------------------------------------------------------------------------------------------------------------------
 
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
 PrimerDisco="/dev/sda"
+VersAndX86="9.0"
 
 echo ""
-echo -e "${ColorVerde}  Iniciando el script de instalación de AndroidX86v9 para máquinas virtuales de Proxmox...${FinColor}"
+echo -e "${ColorVerde}  Iniciando el script de instalación de AndroidX86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
 ## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
@@ -32,22 +33,24 @@ echo ""
      echo ""
    fi
 
-menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86v9:" 22 94 16)
-  opciones=(1 "Hacer copia de seguridad de la instalación anterior" off
-            2 "Crear las particiones" on
-            3 "Formatear las particiones" on
-            4 "Marcar la partición OVMF como esp" on
-            5 "Determinar la última versión de AndroidX86" on
-            6 "Montar las particiones" on
-            7 "Descargar Grub para EFI" on
-            8 "Crear el archivo de configuración para Grub" on
-            9 "Crear la estructura de carpetas y archivos en ext4" on
-           10 "Configurar la MV para que pille IP por DHCP" on
-           11 "Copiar el script de instalación de paquetes" on
-           12 "Copiar el script de instalación de los o-scripts" on
-           13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
-           14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" off
-           15 "Apagar la máquina virtual" off)
+menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
+  opciones=(
+     1 "Hacer copia de seguridad de la instalación anterior" off
+     2 "Crear las particiones" on
+     3 "Formatear las particiones" on
+     4 "Marcar la partición OVMF como esp" on
+     5 "Determinar la última versión de AndroidX86" on
+     6 "Montar las particiones" on
+     7 "Descargar Grub para EFI" on
+     8 "Crear el archivo de configuración para Grub" on
+     9 "Crear la estructura de carpetas y archivos en ext4" on
+    10 "Configurar la MV para que pille IP por DHCP" on
+    11 "Copiar el script de instalación de paquetes" on
+    12 "Copiar el script de instalación de los o-scripts" on
+    13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
+    14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" off
+    15 "Apagar la máquina virtual" off
+  )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
 
@@ -83,7 +86,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86v9:" 22 94 16)
           ## Crear la partición OVMF
              sudo parted -s $PrimerDisco mkpart OVMF ext4 1MiB 201MiB
           ## Crear la partición ext4
-             sudo parted -s $PrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
+             sudo parted -s $PrimerDisco mkpart AndroidX86 ext4 201MiB 24580MiB
           ## Crear la partición de intercambio
              sudo parted -s $PrimerDisco mkpart Intercambio ext4 24580MiB 100%
 
@@ -115,7 +118,31 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86v9:" 22 94 16)
         5)
 
           echo ""
-          echo "  Determinando la última versión de AndroidX86v9..."
+          echo "  Montando las particiones..."
+          echo ""
+          sudo mkdir -p /AndroidX86/PartOVMF/ 2> /dev/null
+          sudo mount -t auto /dev/sda1 /AndroidX86/PartOVMF/
+          sudo mkdir -p /AndroidX86/PartExt4/ 2> /dev/null
+          sudo mount -t auto /dev/sda2 /AndroidX86/PartExt4/
+
+        ;;
+
+        6)
+
+          echo ""
+          echo "  Descargando grub para efi..."
+          echo ""
+          sudo mkdir -p /AndroidX86/PartOVMF/EFI/Boot/ 2> /dev/null
+          rm -rf /AndroidX86/PartOVMF/EFI/Boot/*
+          # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
+          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
+
+        ;;
+
+        7)
+
+          echo ""
+          echo "  Determinando la última versión de AndroidX86..."
           echo ""
 
           ## Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
@@ -127,36 +154,29 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86v9:" 22 94 16)
                sudo apt-get -y install curl
                echo ""
              fi
-  
-          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep 21 | head -n 1 | cut -d'/' -f 5)
-
+          touch /tmp/ISOsAndroidX86.txt
+          curl --silent curl -s https://www.fosshub.com/Android-x86.html | grep href | grep -v rc | grep .iso | sed 's-href="-\n-g' | cut -d'"' -f1 | grep http > /tmp/ISOsAndroidX86.txt
+          VersAndroidX86=$(cat /tmp/ISOsAndroidX86.txt | grep -v k49 | head -n1 | sed 's|-x86_64-|\n|g' | grep iso | sed 's-.iso--g')
+          echo $VersAndroidX86
           echo ""
-          echo "  La última versión estable de AndroidX86v9 es la $VersAndroidX86v9"
+          echo "  La última versión estable de AndroidX86 es la $VersAndroidX86"
           echo ""
 
-        ;;
-
-        6)
-
-          echo ""
-          echo "  Montando las particiones..."
-          echo ""
-          sudo mkdir -p /AndroidX86/PartOVMF/ 2> /dev/null
-          sudo mount -t auto /dev/sda1 /AndroidX86/PartOVMF/
-          sudo mkdir -p /AndroidX86/PartExt4/ 2> /dev/null
-          sudo mount -t auto /dev/sda2 /AndroidX86/PartExt4/
-
-        ;;
-
-        7)
-
-          echo ""
-          echo "  Descargando grub para efi..."
-          echo ""
-          sudo mkdir -p /AndroidX86/PartOVMF/EFI/Boot/ 2> /dev/null
-          rm -rf /AndroidX86/PartOVMF/EFI/Boot/*
-          # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
-          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
+          vUltReleaseOSDN=$(curl -s https://osdn.net/projects/android-x86/releases | grep href | grep "/releases/" | grep -v class | grep -v li | cut -d '"' -f2 | grep -v "s/p" | sort | tail -n1 | sed 's|/projects/android-x86/releases/||g')
+          #vWebOSDN="https://osdn.net/projects/android-x86/releases/"
+          #echo $vWebOSDN$vUltReleaseOSDN
+          cd /tmp/
+          # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  wget no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install wget
+              echo ""
+            fi
+          wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O android-x86_64-$VersAndroidX86-k49.iso
+ 
         ;;
 
         8)
@@ -183,48 +203,45 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86v9:" 22 94 16)
 
         9)
 
-          echo ""
-          echo "  Creando la estructura de carpetas y archivos en la partición ext4 con AndroidX86 $VersOpenWrt"
-          echo ""
-          echo ""
-          echo "  Borrando el contenido de la partición ext4..."
-          echo ""
-          sudo rm -rf /AndroidX86/PartExt4/*
-
-          echo ""
-          echo "  Bajando y posicionando el Kernel..."
-          echo ""
-          sudo mkdir -p /AndroidX86/PartExt4/boot 2> /dev/null
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
-
-          echo ""
-          echo "  Bajando el archivo con el sistema root..."
-          echo ""
-          sudo rm -rf /OpenWrt/PartOVMF/rootfs.tar.gz
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-rootfs.tar.gz -O /OpenWrt/PartOVMF/rootfs.tar.gz
-
-          echo ""
-          echo "  Descomprimiendo el sistema de archivos root en la partición ext4..."
-          echo ""
-
-          ## Comprobar si el paquete tar está instalado. Si no lo está, instalarlo.
-             if [[ $(dpkg-query -s tar 2>/dev/null | grep installed) == "" ]]; then
-               echo ""
-               echo "  tar no está instalado. Iniciando su instalación..."
-               echo ""
-               sudo apt-get -y update
-               sudo apt-get -y install tar
-               echo ""
-             fi
-          sudo tar -xf /AndroidX86/PartOVMF/rootfs.tar.gz -C /OpenWrt/PartExt4/
-
+        
         ;;
 
         10)
 
-          #echo ""
-          #echo "  Configurando la MV de OpenWrt para que pille IP por DHCP"
-          #echo ""
+       #   echo ""
+       #   echo "  Creando la estructura de carpetas y archivos en la partición ext4 con AndroidX86 $VersOpenWrt"
+       #   echo ""
+       #   echo ""
+       #   echo "  Borrando el contenido de la partición ext4..."
+       #   echo ""
+       #   sudo rm -rf /AndroidX86/PartExt4/*
+
+       #   echo ""
+       #   echo "  Bajando y posicionando el Kernel..."
+       #   echo ""
+       #   sudo mkdir -p /AndroidX86/PartExt4/boot 2> /dev/null
+       #   sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
+
+        #  echo ""
+      #    echo "  Bajando el archivo con el sistema root..."
+      #    echo ""
+      #    sudo rm -rf /OpenWrt/PartOVMF/rootfs.tar.gz
+      #    sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-rootfs.tar.gz -O /OpenWrt/PartOVMF/rootfs.tar.gz
+
+      #    echo ""
+      #    echo "  Descomprimiendo el sistema de archivos root en la partición ext4..."
+      #    echo ""
+
+       #   ## Comprobar si el paquete tar está instalado. Si no lo está, instalarlo.
+       #      if [[ $(dpkg-query -s tar 2>/dev/null | grep installed) == "" ]]; then
+       #        echo ""
+       #        echo "  tar no está instalado. Iniciando su instalación..."
+       #        echo ""
+       #        sudo apt-get -y update
+       #        sudo apt-get -y install tar
+       #        echo ""
+       #      fi
+       #   sudo tar -xf /AndroidX86/PartOVMF/rootfs.tar.gz -C /OpenWrt/PartExt4/
 
         ;;
 
