@@ -211,19 +211,17 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64androidx86.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
           sudo mkdir -p /AndroidX86/PartOVMF/EFI/AndroidX86/ 2> /dev/null
           sudo cp /AndroidX86/PartExt4/Temp/ISO/efi/boot/android.cfg /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg
-          #sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                           > /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                      >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo ''                                                                                                                   >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo 'set default="'"0"'"'                                                                                                >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo 'set timeout="'"1"'"'                                                                                                >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                             >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg'
-          #sudo su -c "echo ''                                                                                                                   >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                       >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo '  linux /kernel root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo '}'                                                                                                                  >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo 'menuentry "'"AndroidX86 (failsafe)"'" {'                                                                            >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo '  linux /kernel failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          #sudo su -c "echo '}'                                                                                                                  >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                    > /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                               >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo ''                                                                                            >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'set default="'"0"'"'                                                                         >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'set timeout="'"1"'"'                                                                         >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                      >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg'
+          sudo su -c "echo ''                                                                                            >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '  linux /kernel root=/dev/ram0 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8' >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '  initrd /initrd.img'                                                                        >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '}'                                                                                           >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
 
         ;;
 
