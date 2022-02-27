@@ -64,7 +64,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
-
+          sudo umount /AndroidX86/PartOVMF/
+          sudo umount /AndroidX86/PartExt4/
           sudo mkdir -p /AndroidX86/PartOVMF/
           sudo mount -t auto $PrimerDisco"1" /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/
