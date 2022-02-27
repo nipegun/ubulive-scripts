@@ -22,12 +22,13 @@ echo ""
 echo -e "${ColorVerde}  Iniciando el script de instalación de AndroidX86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
+sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
+
 ## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
    if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
      echo ""
      echo "  dialog no está instalado. Iniciando su instalación..."
      echo ""
-     sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
      sudo apt-get -y update
      sudo apt-get -y install dialog
      echo ""
@@ -39,11 +40,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
      2 "Crear las particiones" on
      3 "Formatear las particiones" on
      4 "Marcar la partición OVMF como esp" on
-     5 "Determinar la última versión de AndroidX86" on
-     6 "Montar las particiones" on
-     7 "Descargar Grub para EFI" on
-     8 "Crear el archivo de configuración para Grub" on
-     9 "Crear la estructura de carpetas y archivos en ext4" on
+     5 "Montar las particiones" on
+     6 "Preparar los archivos de la particion EFI (Grub y otros)" on
+     7 "Determinar la última versión de AndroidX86" on
+     8 "Descargar la última versión de AndroidX86" on
+     9 "" on
     10 "Configurar la MV para que pille IP por DHCP" on
     11 "Copiar el script de instalación de paquetes" on
     12 "Copiar el script de instalación de los o-scripts" on
@@ -130,7 +131,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
         6)
 
           echo ""
-          echo "  Descargando grub para efi..."
+          echo "  Preparando los archivos de la particion EFI (Grub y otros)..."
           echo ""
           sudo mkdir -p /AndroidX86/PartOVMF/EFI/Boot/ 2> /dev/null
           rm -rf /AndroidX86/PartOVMF/EFI/Boot/*
@@ -144,7 +145,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Determinando la última versión de AndroidX86..."
           echo ""
-
           ## Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
              if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
                echo ""
@@ -162,6 +162,13 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  La última versión estable de AndroidX86 es la $VersAndroidX86"
           echo ""
 
+        ;;
+
+        8)
+
+          echo ""
+          echo "  Descargando la última versión de AndroidX86..."
+          echo ""
           vUltReleaseOSDN=$(curl -s https://osdn.net/projects/android-x86/releases | grep href | grep "/releases/" | grep -v class | grep -v li | cut -d '"' -f2 | grep -v "s/p" | sort | tail -n1 | sed 's|/projects/android-x86/releases/||g')
           #vWebOSDN="https://osdn.net/projects/android-x86/releases/"
           #echo $vWebOSDN$vUltReleaseOSDN
@@ -175,12 +182,12 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
               sudo apt-get -y install wget
               echo ""
             fi
-          wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O android-x86_64-$VersAndroidX86-k49.iso
- 
+          wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O /AndroidX86/PartExt4/android-x86_64-$VersAndroidX86-k49.iso
+
         ;;
 
-        8)
-
+        9)
+        
           echo ""
           echo "  Creando el archivo de configuración para Grub (grub.cfg)..."
           echo ""
@@ -192,7 +199,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo su -c "echo 'set timeout="'"1"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                                              >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg'
           sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                                           >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '  linux /boot/generic-kernel.bin root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                                >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
@@ -201,13 +208,9 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
 
         ;;
 
-        9)
-
-        
-        ;;
-
         10)
 
+ 
        #   echo ""
        #   echo "  Creando la estructura de carpetas y archivos en la partición ext4 con AndroidX86 $VersOpenWrt"
        #   echo ""
