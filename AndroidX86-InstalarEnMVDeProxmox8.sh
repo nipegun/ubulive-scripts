@@ -143,6 +143,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo mkdir -p /AndroidX86/PartExt4/Temp/SFS/
           sudo chmod 777 /AndroidX86/PartExt4/Temp/SFS/
 
+          sudo mkdir -p /AndroidX86/PartExt4/Temp/IMG/
+          sudo chmod 777 /AndroidX86/PartExt4/Temp/IMG/
         ;;
 
         6)
@@ -200,6 +202,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O /AndroidX86/PartExt4/Temp/android-x86_64-$VersAndroidX86-k49.iso
           sudo mount /AndroidX86/PartExt4/Temp/android-x86_64-$VersAndroidX86-k49.iso /AndroidX86/PartExt4/Temp/ISO/
           sudo unsquashfs -f -d /AndroidX86/PartExt4/Temp/SFS/ /AndroidX86/PartExt4/Temp/ISO/system.sfs
+          sudo mount -o loop /AndroidX86/PartExt4/Temp/SFS/system.img /AndroidX86/PartExt4/Temp/IMG/
 
         ;;
 
