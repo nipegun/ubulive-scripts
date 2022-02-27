@@ -156,7 +156,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/Boot/ 2> /dev/null
           rm -rf /OpenWrt/PartOVMF/EFI/Boot/*
           # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
-          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
+          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64openwrt.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
         ;;
 
         8)
