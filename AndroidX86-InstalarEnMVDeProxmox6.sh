@@ -65,18 +65,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
           sudo apt-get -y install mc
+          
           sudo umount /AndroidX86/PartOVMF/
           sudo umount /AndroidX86/PartExt4/
+          
           sudo mkdir -p /AndroidX86/PartOVMF/
           sudo mount -t auto $PrimerDisco"1" /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/
           sudo mount -t auto $PrimerDisco"2" /AndroidX86/PartExt4/
-          sudo chmod 777 /AndroidX86/PartOVMF/
-          sudo chmod 777 /AndroidX86/PartExt4/
-          sudo mkdir -p /AndroidX86/PartExt4/Temp/
-          sudo chmod 777 /AndroidX86/PartExt4/Temp/
-          sudo mkdir -p /AndroidX86/PartExt4/Temp/ISO/
-          sudo chmod 777 /AndroidX86/PartExt4/Temp/ISO/
+          
         ;;
 
         2)
@@ -84,6 +81,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Creando las particiones..."
           echo ""
+          
           sudo rm -rf /AndroidX86/PartOVMF/*
           sudo rm -rf /AndroidX86/PartExt4/*
           sudo umount $PrimerDisco"1" 2> /dev/null
@@ -133,6 +131,13 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo mount -t auto /dev/sda1 /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/ 2> /dev/null
           sudo mount -t auto /dev/sda2 /AndroidX86/PartExt4/
+
+          sudo chmod 777 /AndroidX86/PartOVMF/
+          sudo chmod 777 /AndroidX86/PartExt4/
+          sudo mkdir -p /AndroidX86/PartExt4/Temp/
+          sudo chmod 777 /AndroidX86/PartExt4/Temp/
+          sudo mkdir -p /AndroidX86/PartExt4/Temp/ISO/
+          sudo chmod 777 /AndroidX86/PartExt4/Temp/ISO/
 
         ;;
 
