@@ -22,8 +22,6 @@ echo ""
 echo -e "${ColorVerde}  Iniciando el script de instalación de AndroidX86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
-sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
-
 ## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
    if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
      echo ""
@@ -64,6 +62,9 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
+          sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
+          sudo apt-get -y update
+          sudo apt-get -y install mc
           sudo mkdir -p /AndroidX86/PartOVMF/
           sudo mount -t auto $PrimerDisco"1" /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/
@@ -223,7 +224,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                       >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
           sudo su -c "echo '  linux /kernel root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
           sudo su -c "echo '}'                                                                                                                  >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
-          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                               >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'menuentry "'"AndroidX86 (failsafe)"'" {'                                                                            >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
           sudo su -c "echo '  linux /kernel failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
           sudo su -c "echo '}'                                                                                                                  >> /AndroidX86/PartOVMF/EFI/AndroidX86/grub.cfg"
 
