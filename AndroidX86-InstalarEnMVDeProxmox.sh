@@ -148,7 +148,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  Preparando los archivos de la particion EFI (Grub y otros)..."
           echo ""
           sudo mkdir -p /AndroidX86/PartOVMF/EFI/Boot/ 2> /dev/null
-          sudo mkdir -p /AndroidX86/PartOVMF/EFI/androidx86/ 2> /dev/null
           rm -rf /AndroidX86/PartOVMF/EFI/Boot/*
           # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
           sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64androidx86.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
