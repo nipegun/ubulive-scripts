@@ -196,6 +196,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo unsquashfs -f -d /AndroidX86/PartExt4/Temp/SFS/ /AndroidX86/PartExt4/Temp/ISO/system.sfs
           sudo cp /AndroidX86/PartExt4/Temp/SFS/system.img  /AndroidX86/PartExt4/
           #sudo mount -o loop /AndroidX86/PartExt4/Temp/SFS/system.img /AndroidX86/PartExt4/Temp/IMG/
+          sudo mkdir /AndroidX86/PartExt4/data
 
         ;;
 
@@ -232,6 +233,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           sudo umount /AndroidX86/PartExt4/Temp/ISO/
           sudo rm -rf /AndroidX86/PartExt4/Temp/
+          sudo rm -rf "/AndroidX86/PartExt4/lost+found/"
           sudo apt-get -y install mc
 
         ;;
