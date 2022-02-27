@@ -69,6 +69,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           sudo mount -t auto $PrimerDisco"1" /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/
           sudo mount -t auto $PrimerDisco"2" /AndroidX86/PartExt4/
+          sudo mkdir -p /AndroidX86/PartExt4/Temp/ISO/
         ;;
 
         2)
@@ -180,13 +181,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
               sudo apt-get -y install wget
               echo ""
             fi
-          sudo chmod 777 /AndroidX86/PartOVMF/
-          sudo chmod 777 /AndroidX86/PartExt4/
-          wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O /AndroidX86/PartExt4/android-x86_64-$VersAndroidX86-k49.iso
-
+          #sudo chmod 777 /AndroidX86/PartOVMF/
+          #sudo chmod 777 /AndroidX86/PartExt4/
+          sudo chmod 777 /AndroidX86/PartExt4/Temp/ISO/
+          wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O /AndroidX86/PartExt4/Temp/android-x86_64-$VersAndroidX86-k49.iso
+          sudo mount /AndroidX86/PartExt4/Temp/android-x86_64-$VersAndroidX86-k49.iso /AndroidX86/PartExt4/Temp/ISO/
         ;;
 
         9)
+        
         
           echo ""
           echo "  Creando el archivo de configuración para Grub (grub.cfg)..."
