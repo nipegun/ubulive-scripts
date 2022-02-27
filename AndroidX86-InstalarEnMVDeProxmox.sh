@@ -74,7 +74,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Creando las particiones..."
           echo ""
-          
           sudo rm -rf /AndroidX86/PartOVMF/* 2> /dev/null
           sudo rm -rf /AndroidX86/PartExt4/* 2> /dev/null
           sudo umount $PrimerDisco"1" 2> /dev/null
@@ -233,6 +232,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           sudo umount /AndroidX86/PartExt4/Temp/ISO/
           sudo rm -rf /AndroidX86/PartExt4/Temp/
+          sudo apt-get -y install mc
 
         ;;
 
