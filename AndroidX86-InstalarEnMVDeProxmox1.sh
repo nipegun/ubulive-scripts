@@ -170,8 +170,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  Descargando la última versión de AndroidX86..."
           echo ""
           vUltReleaseOSDN=$(curl -s https://osdn.net/projects/android-x86/releases | grep href | grep "/releases/" | grep -v class | grep -v li | cut -d '"' -f2 | grep -v "s/p" | sort | tail -n1 | sed 's|/projects/android-x86/releases/||g')
-          #vWebOSDN="https://osdn.net/projects/android-x86/releases/"
-          #echo $vWebOSDN$vUltReleaseOSDN
           cd /tmp/
           # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
             if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
@@ -182,6 +180,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
               sudo apt-get -y install wget
               echo ""
             fi
+          sudo chmod 777 /AndroidX86/PartOVMF/
+          sudo chmod 777 /AndroidX86/PartExt4/
           wget "https://osdn.net/frs/redir.php?m=rwthaachen&f=android-x86%2F$vUltReleaseOSDN%2Fandroid-x86_64-$VersAndroidX86-k49.iso" -O /AndroidX86/PartExt4/android-x86_64-$VersAndroidX86-k49.iso
 
         ;;
