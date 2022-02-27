@@ -64,11 +64,6 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo ""
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
-          sudo apt-get -y install mc
-          
-          sudo umount /AndroidX86/PartOVMF/
-          sudo umount /AndroidX86/PartExt4/
-          
           sudo mkdir -p /AndroidX86/PartOVMF/
           sudo mount -t auto $PrimerDisco"1" /AndroidX86/PartOVMF/
           sudo mkdir -p /AndroidX86/PartExt4/
@@ -153,9 +148,10 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  Preparando los archivos de la particion EFI (Grub y otros)..."
           echo ""
           sudo mkdir -p /AndroidX86/PartOVMF/EFI/Boot/ 2> /dev/null
+          sudo mkdir -p /AndroidX86/PartOVMF/EFI/androidx86/ 2> /dev/null
           rm -rf /AndroidX86/PartOVMF/EFI/Boot/*
           # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
-          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
+          sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64androidx86.efi -O /AndroidX86/PartOVMF/EFI/Boot/bootx64.efi
 
         ;;
 
@@ -212,19 +208,19 @@ menu=(dialog --timeout 5 --checklist "Instalación de AndroidX86:" 22 94 16)
           echo "  Creando el archivo de configuración para Grub (grub.cfg)..."
           echo ""
           sudo mkdir -p /AndroidX86/PartOVMF/EFI/AndroidX86/ 2> /dev/null
-          sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                            > /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                                       >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'set default="'"0"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'set timeout="'"1"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                                              >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg'
-          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                                        >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '  linux /boot/generic-kernel.bin root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                                >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '  linux /boot/generic-kernel.bin failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
-          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/OpenWrt/grub.cfg"
+          sudo su -c "echo 'serial --unit=0 --speed=115200 --word=8 --parity=no --stop=1 --rtscts=off'                                                            > /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'terminal_input console serial; terminal_output console serial'                                                                       >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'set default="'"0"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'set timeout="'"1"'"'                                                                                                                 >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c 'echo "set root='"'(hd0,2)'"'"                                                                                                              >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg'
+          sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'menuentry "'"AndroidX86"'" {'                                                                                                        >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '  linux /boot/generic-kernel.bin root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                                >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '  linux /boot/generic-kernel.bin failsafe=true root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd' >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
+          sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartOVMF/EFI/AndroidX86/grub.cfg"
 
         ;;
 
