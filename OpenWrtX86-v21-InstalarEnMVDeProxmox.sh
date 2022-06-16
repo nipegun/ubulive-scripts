@@ -21,33 +21,35 @@ echo ""
 echo -e "${ColorVerde}  Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
 echo ""
 
-## Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
-   if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
-     echo ""
-     echo "  dialog no está instalado. Iniciando su instalación..."
-     echo ""
-     sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
-     sudo apt-get -y update
-     sudo apt-get -y install dialog
-     echo ""
-   fi
+# Comprobar si el paquete dialog está instalado. Si no lo está, instalarlo.
+  if [[ $(dpkg-query -s dialog 2>/dev/null | grep installed) == "" ]]; then
+    echo ""
+    echo "  dialog no está instalado. Iniciando su instalación..."
+    echo ""
+    sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
+    sudo apt-get -y update
+    sudo apt-get -y install dialog
+    echo ""
+  fi
 
 menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
-  opciones=(1 "Hacer copia de seguridad de la instalación anterior" off
-            2 "Crear las particiones" on
-            3 "Formatear las particiones" on
-            4 "Marcar la partición OVMF como esp" on
-            5 "Determinar la última versión de OpenWrt" on
-            6 "Montar las particiones" on
-            7 "Descargar Grub para EFI" on
-            8 "Crear el archivo de configuración para Grub" on
-            9 "Crear la estructura de carpetas y archivos en ext4" on
-           10 "Configurar la MV para que pille IP por DHCP" on
-           11 "Copiar el script de instalación de paquetes" on
-           12 "Copiar el script de instalación de los o-scripts" on
-           13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
-           14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" off
-           15 "Apagar la máquina virtual" off)
+  opciones=(
+    1 "Hacer copia de seguridad de la instalación anterior" off
+    2 "Crear las particiones" on
+    3 "Formatear las particiones" on
+    4 "Marcar la partición OVMF como esp" on
+    5 "Determinar la última versión de OpenWrt" on
+    6 "Montar las particiones" on
+    7 "Descargar Grub para EFI" on
+    8 "Crear el archivo de configuración para Grub" on
+    9 "Crear la estructura de carpetas y archivos en ext4" on
+    10 "Configurar la MV para que pille IP por DHCP" on
+    11 "Copiar el script de instalación de paquetes" on
+    12 "Copiar el script de instalación de los o-scripts" on
+    13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
+    14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" off
+    15 "Apagar la máquina virtual" off
+  )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
 
@@ -78,14 +80,14 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           sudo umount $PrimerDisco"2" 2> /dev/null
           sudo umount $PrimerDisco"3" 2> /dev/null
           sudo swapoff -a
-          ## Crear tabla de particiones GPT
-             sudo parted -s $PrimerDisco mklabel gpt
-          ## Crear la partición OVMF
-             sudo parted -s $PrimerDisco mkpart OVMF ext4 1MiB 201MiB
-          ## Crear la partición ext4
-             sudo parted -s $PrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
-          ## Crear la partición de intercambio
-             sudo parted -s $PrimerDisco mkpart Intercambio ext4 24580MiB 100%
+          # Crear tabla de particiones GPT
+            sudo parted -s $PrimerDisco mklabel gpt
+          # Crear la partición OVMF
+            sudo parted -s $PrimerDisco mkpart OVMF ext4 1MiB 201MiB
+          # Crear la partición ext4
+            sudo parted -s $PrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
+          # Crear la partición de intercambio
+            sudo parted -s $PrimerDisco mkpart Intercambio ext4 24580MiB 100%
 
         ;;
 
@@ -94,12 +96,12 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Formateando las particiones..."
           echo ""
-          ## Formatear la partición para EFI como fat32
-             sudo mkfs -t vfat -F 32 -n OVMF $PrimerDisco"1"
-          ## Formatear la partición para OpenWrt como ext4
-             sudo mkfs -t ext4 -L OpenWrt $PrimerDisco"2"
-          ## Formatear la partición para Intercambio como swap
-             sudo mkswap -L Intercambio $PrimerDisco"3"
+          # Formatear la partición para EFI como fat32
+            sudo mkfs -t vfat -F 32 -n OVMF $PrimerDisco"1"
+          # Formatear la partición para OpenWrt como ext4
+            sudo mkfs -t ext4 -L OpenWrt $PrimerDisco"2"
+          # Formatear la partición para Intercambio como swap
+            sudo mkswap -L Intercambio $PrimerDisco"3"
 
         ;;
 
@@ -118,15 +120,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Determinando la última versión de OpenWrt"
           echo ""
 
-          ## Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-             if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-               echo ""
-               echo "  curl no está instalado. Iniciando su instalación..."
-               echo ""
-               sudo apt-get -y update
-               sudo apt-get -y install curl
-               echo ""
-             fi
+          # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  curl no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install curl
+              echo ""
+            fi
   
           VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep 21 | head -n 1 | cut -d'/' -f 5)
 
@@ -207,15 +209,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Descomprimiendo el sistema de archivos root en la partición ext4..."
           echo ""
 
-          ## Comprobar si el paquete tar está instalado. Si no lo está, instalarlo.
-             if [[ $(dpkg-query -s tar 2>/dev/null | grep installed) == "" ]]; then
-               echo ""
-               echo "  tar no está instalado. Iniciando su instalación..."
-               echo ""
-               sudo apt-get -y update
-               sudo apt-get -y install tar
-               echo ""
-             fi
+          # Comprobar si el paquete tar está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s tar 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  tar no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install tar
+              echo ""
+            fi
           sudo tar -xf /OpenWrt/PartOVMF/rootfs.tar.gz -C /OpenWrt/PartExt4/
 
         ;;
@@ -350,3 +352,4 @@ echo "sudo shutdown -r now"
 echo ""
 echo "Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
 echo ""
+
