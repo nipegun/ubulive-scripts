@@ -157,6 +157,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/EFI/Boot/ 2> /dev/null
           rm -rf /OpenWrt/PartOVMF/EFI/Boot/*
+          # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  wget no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install wget
+              echo ""
+            fi
           # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
           sudo wget https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/Recursos/bootx64openwrt.efi -O /OpenWrt/PartOVMF/EFI/Boot/bootx64.efi
         ;;
@@ -197,6 +206,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Bajando y posicionando el Kernel..."
           echo ""
           sudo mkdir -p /OpenWrt/PartExt4/boot 2> /dev/null
+          # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  wget no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install wget
+              echo ""
+            fi
           sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
 
           echo ""
@@ -315,6 +333,15 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo "  Copiando el script de preparación de OpenWrt para funcionar como una MV de Proxmox..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
+          # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  wget no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install wget
+              echo ""
+            fi
           sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarOpenWrt21ComoMVdeProxmox.sh -O /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
           sudo cp /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
           sudo chmod +x /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
