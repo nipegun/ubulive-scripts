@@ -16,7 +16,7 @@ ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
 vFechaDeEjec=$(date +A%Y-M%m-D%d@%T)
-PrimerDisco="/dev/sda/"
+vPrimerDisco="/dev/sda"
 
 echo ""
 echo -e "${ColorVerde}  Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
@@ -69,14 +69,14 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
           # Desmontar discos, si es que están montados
-            sudo umount $PrimerDisco"1" 2> /dev/null
-            sudo umount $PrimerDisco"2" 2> /dev/null
-            sudo umount $PrimerDisco"3" 2> /dev/null
+            sudo umount $vPrimerDisco"1" 2> /dev/null
+            sudo umount $vPrimerDisco"2" 2> /dev/null
+            sudo umount $vPrimerDisco"3" 2> /dev/null
           # Crear particiones para montar
             sudo mkdir -p /OpenWrt/PartOVMF/
-            sudo mount -t auto $PrimerDisco"1" /OpenWrt/PartOVMF/
+            sudo mount -t auto $vPrimerDisco"1" /OpenWrt/PartOVMF/
             sudo mkdir -p /OpenWrt/PartExt4/
-            sudo mount -t auto $PrimerDisco"2" /OpenWrt/PartExt4/
+            sudo mount -t auto $vPrimerDisco"2" /OpenWrt/PartExt4/
           # Crear carpeta donde guardar los archivos
             sudo mkdir -p /CopSegOpenWrt/$vFechaDeEjec/PartOVMF/
             sudo mkdir -p /CopSegOpenWrt/$vFechaDeEjec/PartExt4/
@@ -97,18 +97,18 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo ""
           sudo rm -rf /OpenWrt/PartOVMF/*
           sudo rm -rf /OpenWrt/PartExt4/*
-          sudo umount $PrimerDisco"1" 2> /dev/null
-          sudo umount $PrimerDisco"2" 2> /dev/null
-          sudo umount $PrimerDisco"3" 2> /dev/null
+          sudo umount $vPrimerDisco"1" 2> /dev/null
+          sudo umount $vPrimerDisco"2" 2> /dev/null
+          sudo umount $vPrimerDisco"3" 2> /dev/null
           sudo swapoff -a
           # Crear tabla de particiones GPT
-            sudo parted -s $PrimerDisco mklabel gpt
+            sudo parted -s $vPrimerDisco mklabel gpt
           # Crear la partición OVMF
-            sudo parted -s $PrimerDisco mkpart OVMF ext4 1MiB 201MiB
+            sudo parted -s $vPrimerDisco mkpart OVMF ext4 1MiB 201MiB
           # Crear la partición ext4
-            sudo parted -s $PrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
+            sudo parted -s $vPrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
           # Crear la partición de intercambio
-            sudo parted -s $PrimerDisco mkpart Intercambio ext4 24580MiB 100%
+            sudo parted -s $vPrimerDisco mkpart Intercambio ext4 24580MiB 100%
 
         ;;
 
@@ -118,11 +118,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo "  Formateando las particiones..."
           echo ""
           # Formatear la partición para EFI como fat32
-            sudo mkfs -t vfat -F 32 -n OVMF $PrimerDisco"1"
+            sudo mkfs -t vfat -F 32 -n OVMF $vPrimerDisco"1"
           # Formatear la partición para OpenWrt como ext4
-            sudo mkfs -t ext4 -L OpenWrt $PrimerDisco"2"
+            sudo mkfs -t ext4 -L OpenWrt $vPrimerDisco"2"
           # Formatear la partición para Intercambio como swap
-            sudo mkswap -L Intercambio $PrimerDisco"3"
+            sudo mkswap -L Intercambio $vPrimerDisco"3"
 
         ;;
 
@@ -131,7 +131,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo ""
           echo "  Marcando la partición EFI como esp..."
           echo ""
-          sudo parted -s $PrimerDisco set 1 esp on
+          sudo parted -s $vPrimerDisco set 1 esp on
 
         ;;
 
