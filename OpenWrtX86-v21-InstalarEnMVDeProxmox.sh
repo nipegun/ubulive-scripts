@@ -9,13 +9,14 @@
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v21-InstalarEnMVDeProxmox.sh | bash
+# curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v21-InstalarEnMVDeProxmox.sh | bash
 # ----------
 
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
 
-PrimerDisco="/dev/sda"
+vFechaDeEjec=$(date +A%Y-M%m-D%d@%T)
+PrimerDisco="/dev/sda/"
 
 echo ""
 echo -e "${ColorVerde}  Iniciando el script de instalación de OpenWrt X86 para máquinas virtuales de Proxmox...${FinColor}"
@@ -32,23 +33,28 @@ echo ""
     echo ""
   fi
 
-menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
+  # Cambiar resolución de la pantalla
+    vNombreDisplay=$(xrandr | grep " connected" | cut -d" " -f1)
+    xrandr --output $vNombreDisplay --mode 1024x768
+
+menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
   opciones=(
-    1 "Hacer copia de seguridad de la instalación anterior" off
-    2 "Crear las particiones" on
-    3 "Formatear las particiones" on
-    4 "Marcar la partición OVMF como esp" on
-    5 "Determinar la última versión de OpenWrt" on
-    6 "Montar las particiones" on
-    7 "Descargar Grub para EFI" on
-    8 "Crear el archivo de configuración para Grub" on
-    9 "Crear la estructura de carpetas y archivos en ext4" on
+     1 "Hacer copia de seguridad de la instalación anterior" on
+     2 "Crear las particiones" on
+     3 "Formatear las particiones" on
+     4 "Marcar la partición OVMF como esp" on
+     5 "Determinar la última versión de OpenWrt" on
+     6 "Montar las particiones" on
+     7 "Descargar Grub para EFI" on
+     8 "Crear el archivo de configuración para Grub" on
+     9 "Crear la estructura de carpetas y archivos en ext4" on
     10 "Configurar la MV para que pille IP por DHCP" on
     11 "Copiar el script de instalación de paquetes" on
     12 "Copiar el script de instalación de los o-scripts" on
     13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
-    14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" off
-    15 "Apagar la máquina virtual" off
+    14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
+    15 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
+    16 "Apagar la máquina virtual" on
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
@@ -62,11 +68,26 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Haciendo copia de seguridad de la instalación anterior..."
           echo ""
-
-          sudo mkdir -p /OpenWrt/PartOVMF/
-          sudo mount -t auto $PrimerDisco"1" /OpenWrt/PartOVMF/
-          sudo mkdir -p /OpenWrt/PartExt4/
-          sudo mount -t auto $PrimerDisco"2" /OpenWrt/PartExt4/
+          # Desmontar discos, si es que están montados
+            sudo umount $PrimerDisco"1" 2> /dev/null
+            sudo umount $PrimerDisco"2" 2> /dev/null
+            sudo umount $PrimerDisco"3" 2> /dev/null
+          # Crear particiones para montar
+            sudo mkdir -p /OpenWrt/PartOVMF/
+            sudo mount -t auto $PrimerDisco"1" /OpenWrt/PartOVMF/
+            sudo mkdir -p /OpenWrt/PartExt4/
+            sudo mount -t auto $PrimerDisco"2" /OpenWrt/PartExt4/
+          # Crear carpeta donde guardar los archivos
+            sudo mkdir -p /CopSegOpenWrt/$vFechaDeEjec/PartOVMF/
+            sudo mkdir -p /CopSegOpenWrt/$vFechaDeEjec/PartExt4/
+          # Copiar archivos
+            sudo cp -r /OpenWrt/PartOVMF/* /CopSegOpenWrt/$vFechaDeEjec/PartOVMF/
+            sudo cp -r /OpenWrt/PartExt4/* /CopSegOpenWrt/$vFechaDeEjec/PartExt4/
+          # Desmontar partición 
+            sudo umount /OpenWrt/PartOVMF/
+            sudo rm -rf  /OpenWrt/PartOVMF/
+            sudo umount /OpenWrt/PartExt4/
+            sudo rm -rf  /OpenWrt/PartOVMF/
         ;;
 
         2)
@@ -252,7 +273,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           sudo su -c 'echo "  option ipaddr '"'127.0.0.1'"'"  >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option netmask '"'255.0.0.0'"'" >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo ""                                 >> /OpenWrt/PartOVMF/scripts/network'
-          sudo su -c 'echo "config interface '"'WAN'"'"       >> /OpenWrt/PartOVMF/scripts/network'
+          sudo su -c 'echo "config interface '"'i_wan'"'"     >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option ifname '"'eth0'"'"       >> /OpenWrt/PartOVMF/scripts/network'
           sudo su -c 'echo "  option proto '"'dhcp'"'"        >> /OpenWrt/PartOVMF/scripts/network'
           sudo rm -rf                               /OpenWrt/PartExt4/etc/config/network
@@ -353,17 +374,30 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
           echo ""
           echo "  Moviendo copia de seguridad de la instalación anterior a la instalación nueva..."
           echo ""
-
+          # Crear carpeta en la nueva partición
+          sudo mkdir -p /OpenWrt/PartExt4/CopSeg/
+          # Mover archivos
+            sudo mv /CopSegOpenWrt/$vFechaDeEjec/ /OpenWrt/PartExt4/CopSeg/
+          # Borrar carpeta de copia de seguridad de la partición de Debian Live
+            sudo rm -rf  /CopSegOpenWrt/
         ;;
 
         15)
 
           echo ""
+          echo "  Instalando Midnight Commander para poder visualizar los cambios realizados..."
+          echo ""
+          sudo apt-get -y install mc > /dev/null
+
+        ;;
+
+        16)
+
+          echo ""
           echo "  Apagando la máquina virtual..."
           echo ""
-
           #eject
-          shutdown -h now
+          sudo shutdown -h now
 
         ;;
 
@@ -372,11 +406,13 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
 done
 
 echo ""
-echo "Ejecución del script, finalizada."
+echo " ----------"
+echo "  Ejecución del script, finalizada."
 echo ""
-echo "Reinicia el sistema con:"
-echo "sudo shutdown -r now"
+echo "  Reinicia el sistema con:"
+echo "  sudo shutdown -r now"
 echo ""
-echo "Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
+echo "  Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
+echo " ----------"
 echo ""
 
