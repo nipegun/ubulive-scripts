@@ -9,7 +9,8 @@
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | sed 's-/dev/sda-/dev/vda-g' | bash
 # ----------
 
 ColorVerde="\033[1;32m"
