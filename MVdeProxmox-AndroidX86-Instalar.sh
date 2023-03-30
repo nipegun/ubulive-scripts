@@ -5,12 +5,12 @@
 # Si se te llena la boca hablando de libertad entonces hazlo realmente libre.
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
-#----------------------------------------------------------------------------------------------------------------------
-#  Script de NiPeGun para instalar AndroidX86 en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
+# ----------
+# Script de NiPeGun para instalar AndroidX86 en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/AndroidX86-InstalarEnMVDeProxmox.sh | bash
-#----------------------------------------------------------------------------------------------------------------------
+#   curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/AndroidX86-InstalarEnMVDeProxmox.sh | bash
+# ----------
 
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
