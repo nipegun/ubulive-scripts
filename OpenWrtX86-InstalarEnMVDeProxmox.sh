@@ -9,9 +9,12 @@
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | bash
-#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | sed 's-/dev/sda-/dev/vda-g' | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-InstalarEnMVDeProxmox.sh | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/debilive-scripts/main/OpenWrtX86-InstalarEnMVDeProxmox.sh | sed 's-/dev/sda-/dev/vda-g' | bash
 # ----------
+
+vNumUltVer=$(curl -sL openwrt.org | grep urrent | grep "stable" | grep ":" | cut -d":" -f2 | cut -d"." -f1 | sed 's- --g' | cut -d"t" -f2)
+#vNumUltVer="22"
 
 ColorVerde="\033[1;32m"
 FinColor="\033[0m"
@@ -152,7 +155,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
               echo ""
             fi
   
-          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep 22 | head -n 1 | cut -d'/' -f 5)
+          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep $vNumUltVer | head -n 1 | cut -d'/' -f 5)
 
           echo ""
           echo "  La última versión estable de OpenWrt 22 es la $VersOpenWrt"
