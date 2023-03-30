@@ -9,7 +9,7 @@
 # Script de NiPeGun para instalar AndroidX86 en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-#   curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/MVdeProxmox-AndroidX86-Instalar.sh | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/AndroidX86-Instalar.sh | bash
 # ----------
 
 ColorVerde="\033[1;32m"
