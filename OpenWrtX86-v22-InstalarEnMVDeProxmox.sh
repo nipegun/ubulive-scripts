@@ -55,7 +55,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
     13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
     14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
     15 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
-    16 "Apagar la máquina virtual" on
+    16 "Apagar la máquina virtual" off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
@@ -288,48 +288,11 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo "  Copiando el script de instalación de paquetes..."
           echo ""
           sudo mkdir -p /OpenWrt/PartOVMF/scripts/ 2> /dev/null
-          sudo su -c "echo '#!/bin/sh'                                        > /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh"
-          sudo su -c 'echo ""                                                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg update"                                     >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install nano"                               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install mc"                                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install pciutils"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install wget"                               >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install git-http"                           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg update"                                     >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install tcpdump"                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install msmtp"                              >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install ca-bundle"                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install ca-certificates"                    >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "opkg install libustream-openssl"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "# Controladores WiFi"                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg update"                                   >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install hostapd-openssl"                  >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install kmod-mac80211"                    >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install kmod-ath"                         >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install kmod-ath9k"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  # Adaptadores Wifi Compex a/b/g/n/ac Wave 2"   >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "    opkg install kmod-ath10k-ct"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "    opkg install ath10k-firmware-qca9984-ct-htt" >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "# Controladores ethernet"                        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  # Adaptador Intel 82575/82576"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "    opkg install kmod-igb"                       >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  # Adaptador Intel"                             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "    #opkg install kmod-e1000"                    >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "# LUCI"                                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg update"                                   >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-base-es"                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-firewall-es"            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-adblock-es"             >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-qos-es"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-wifischedule-es"        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-wireguard-es"           >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "  opkg install luci-i18n-wol-es"                 >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo ""                                                >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"      >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
-          sudo su -c 'echo "reboot"                                          >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh'
+          wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/MVdeProxmox-InstalarPaquetes.sh -O /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+          echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"                                                        >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
+          echo "reboot"                                                                                            >> /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh
           sudo mkdir -p                                           /OpenWrt/PartExt4/root/scripts/
-          sudo cp /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
+          sudo mv /OpenWrt/PartOVMF/scripts/1-InstalarPaquetes.sh /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
           sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
 
         ;;
@@ -344,7 +307,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
           sudo su -c 'echo ""                                                                                               >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
           sudo su -c 'echo "wget -O - https://raw.githubusercontent.com/nipegun/o-scripts/master/OScripts-Instalar.sh | sh" >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
           sudo su -c 'echo "rm -rf /root/scripts/2-InstalarOScripts.sh"                                                     >> /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh'
-          sudo cp /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
+          sudo mv /OpenWrt/PartOVMF/scripts/2-InstalarOScripts.sh /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
           sudo chmod +x                                           /OpenWrt/PartExt4/root/scripts/2-InstalarOScripts.sh
 
         ;;
@@ -365,8 +328,8 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 30 100 20)
               echo ""
             fi
           sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarOpenWrt22ComoMVdeProxmox.sh -O /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
-          sudo cp /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
-          sudo chmod +x /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+          sudo mv /OpenWrt/PartOVMF/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+          sudo chmod +x                                                         /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
 
         ;;
 
