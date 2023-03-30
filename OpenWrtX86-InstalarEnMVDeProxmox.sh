@@ -6,10 +6,10 @@
 # No tienes que aceptar ningún tipo de términos de uso o licencia para utilizarlo o modificarlo porque va sin CopyLeft.
 
 # ----------
-#  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
+# Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-# curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-InstalarEnMVDeProxmox.sh | bash
+#   curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-InstalarEnMVDeProxmox.sh | bash
 # ----------
 
 vColorVerde="\033[1;32m"
@@ -34,9 +34,9 @@ echo ""
 
 menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
   opciones=(
-    1 "Instalar la última versión de OpenWrt 19" off
-    2 "Instalar la última versión de OpenWrt 21" off
-    3 "Instalar la última versión de OpenWrt 22" on
+    1 "Instalar la última versión de OpenWrt 22" off
+    2 "Reservada..." off
+    3 "Reservada..." off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
   clear
@@ -59,43 +59,7 @@ menu=(dialog --timeout 5 --checklist "Instalación de OpenWrt X86:" 22 94 16)
             fi
 
           # Ejecutar el script remoto de instalación
-            curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v19-InstalarEnMVDeProxmox.sh | bash
-
-        ;;
-
-        2)
-
-          # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-            if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-              echo ""
-              echo "  curl no está instalado. Iniciando su instalación..."
-              echo ""
-              sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
-              sudo apt-get -y update
-              sudo apt-get -y install curl
-              echo ""
-            fi
-
-          # Ejecutar el script remoto de instalación
-            curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v21-InstalarEnMVDeProxmox.sh | bash
-
-        ;;
-
-        3)
-
-          # Comprobar si el paquete curl está instalado. Si no lo está, instalarlo.
-            if [[ $(dpkg-query -s curl 2>/dev/null | grep installed) == "" ]]; then
-              echo ""
-              echo "  curl no está instalado. Iniciando su instalación..."
-              echo ""
-              sudo sed -i -e 's|main restricted|main universe restricted|g' /etc/apt/sources.list
-              sudo apt-get -y update
-              sudo apt-get -y install curl
-              echo ""
-            fi
-
-          # Ejecutar el script remoto de instalación
-            curl -s https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | bash
+            curl -sL https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/OpenWrtX86-v22-InstalarEnMVDeProxmox.sh | bash
 
         ;;
 
