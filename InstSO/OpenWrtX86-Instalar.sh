@@ -197,7 +197,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               echo ""
             fi
           # sudo wget http://hacks4geeks.com/_/premium/descargas/OpenWrtX86/PartEFI/EFI/Boot/bootx64.efi -O /OpenWrt/PartEFI/EFI/Boot/bootx64.efi
-          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/main/Recursos/PartEFI/efi/boot/bootx64.efi -O /OpenWrt/PartEFI/EFI/Boot/bootx64.efi
+          sudo wget https://github.com/nipegun/o-scripts/raw/master/Recursos/PartEFI/efi/boot/bootx64.efi -O /OpenWrt/PartEFI/EFI/Boot/bootx64.efi
                     
         ;;
 
