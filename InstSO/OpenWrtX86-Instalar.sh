@@ -9,8 +9,10 @@
 #  Script de NiPeGun para instalar OpenWrt en una máquina virtual de ProxmoxVE inciando desde Ubuntu Live 
 #
 # Ejecución remota:
-#   curl -sL https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/InstSO/OpenWrtX86-Instalar.sh | bash
-#   curl -sL https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/InstSO/OpenWrtX86-Instalar.sh | sed 's-/dev/sda-/dev/vda-g' | bash
+#   Para sistema con discos sata:
+#     curl -sL https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/InstSO/OpenWrtX86-Instalar.sh | bash
+#  Para sistemas con discos virtio:
+#     curl -sL https://raw.githubusercontent.com/nipegun/ubulive-scripts/main/InstSO/OpenWrtX86-Instalar.sh | sed 's-/dev/sda-/dev/vda-g' | bash
 # ----------
 
 vNumUltVer=$(curl -sL openwrt.org | grep urrent | grep "stable" | grep ":" | cut -d":" -f2 | cut -d"." -f1 | sed 's- --g' | cut -d"t" -f2)
