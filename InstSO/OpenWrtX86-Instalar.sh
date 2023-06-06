@@ -61,13 +61,14 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
      7 "Descargar Grub para EFI" on
      8 "Crear el archivo de configuración para Grub" on
      9 "Crear la estructura de carpetas y archivos en ext4" on
-    10 "Configurar la MV para que pille IP por DHCP" on
+    10 "Configurar OpenWrt para que pille IP WAN mediante DHCP" on
     11 "Copiar el script de instalación de paquetes" on
     12 "Copiar el script de instalación de los o-scripts" on
     13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
-    14 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
-    15 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
-    16 "Apagar la máquina virtual" off
+    14 "Copiar el script de preparación de OpenWrt para funcionar como router Baremetal" on
+    15 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
+    16 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
+    17 "Apagar la máquina virtual" off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
 
@@ -276,9 +277,8 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
         10)
 
-
           echo ""
-          echo "  Configurando la MV de OpenWrt para que pille IP por DHCP..."
+          echo "  Configurando OpenWrt para que pille IP WAN mediante DHCP..."
           echo ""
           sudo mkdir /OpenWrt/PartEFI/scripts/ 2> /dev/null
           sudo su -c 'echo "config interface '"'loopback'"'"   > /OpenWrt/PartEFI/scripts/network'
@@ -353,12 +353,31 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               sudo apt-get -y install wget
               echo ""
             fi
-          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/MVdeProxmox-Configurar.sh -O /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
-          sudo chmod +x                                                                                              /OpenWrt/PartExt4/root/scripts/3-PrepararOpenWrtParaMVDeProxmox.sh
+          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarComo-MVdeProxmox.sh -O /OpenWrt/PartExt4/root/scripts/3-ConfigurarComo-MVdeProxmox.sh
+          sudo chmod +x                                                                                                  /OpenWrt/PartExt4/root/scripts/3-ConfigurarComo-MVdeProxmox.sh
 
         ;;
 
         14)
+
+          echo ""
+          echo "  Copiando el script de preparación de OpenWrt para funcionar como router baremetal..."
+          echo ""
+          # Comprobar si el paquete wget está instalado. Si no lo está, instalarlo.
+            if [[ $(dpkg-query -s wget 2>/dev/null | grep installed) == "" ]]; then
+              echo ""
+              echo "  wget no está instalado. Iniciando su instalación..."
+              echo ""
+              sudo apt-get -y update
+              sudo apt-get -y install wget
+              echo ""
+            fi
+          sudo wget https://raw.githubusercontent.com/nipegun/o-scripts/master/PostInst/ConfigurarComo-RouterBaremetal.sh -O /OpenWrt/PartExt4/root/scripts/3-ConfigurarComo-RouterBaremetal.sh
+          sudo chmod +x                                                                                                      /OpenWrt/PartExt4/root/scripts/3-ConfigurarComo-RouterBaremetal.sh
+
+        ;;
+
+        15)
 
           echo ""
           echo "  Moviendo copia de seguridad de la instalación anterior a la instalación nueva..."
@@ -371,7 +390,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
             sudo rm -rf  /CopSegOpenWrt/
         ;;
 
-        15)
+        16)
 
           echo ""
           echo "  Instalando Midnight Commander para poder visualizar los cambios realizados..."
@@ -381,7 +400,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
         ;;
 
-        16)
+        17)
 
           echo ""
           echo "  Apagando la máquina virtual..."
