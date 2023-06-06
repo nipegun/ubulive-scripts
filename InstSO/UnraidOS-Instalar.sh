@@ -22,6 +22,7 @@ vURLDescargaUltVersEstable="https://unraid-dl.sfo2.cdn.digitaloceanspaces.com/st
 
 vFechaDeEjec=$(date +A%Y-M%m-D%d@%T)
 vPrimerDisco="/dev/sda"
+vNombreServidor="unraidg10"
 
 # Declaración de las variables de color
   vColorAzul="\033[0;34m"
@@ -54,23 +55,23 @@ echo ""
 
 menu=(dialog --checklist "Instalación de UnraidOS X86:" 30 100 20)
   opciones=(
-     1 "Hacer copia de seguridad de la instalación anterior" on
-     2 "Crear las particiones" on
-     3 "Formatear las particiones" on
-     4 "Marcar la partición EFI como esp" on
-     5 "Determinar la última versión de UnraidOS" on
-     6 "Montar las particiones" on
-     7 "Descargar el archivo zip con UnraidOS" on
-     8 "Descomprimir el archivo zip con UnraidOS" on
-     9 "Crear la estructura de carpetas y archivos en ext4" on
-    10 "Configurar UnraidOS para que pille IP WAN mediante DHCP" on
-    11 "Copiar el script de instalación de paquetes" on
-    12 "Copiar el script de instalación de los o-scripts" on
-    13 "Copiar el script de preparación de UnraidOS para funcionar como una MV de Proxmox" on
-    14 "Copiar el script de preparación de UnraidOS para funcionar como router Baremetal" on
-    15 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
-    16 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
-    17 "Apagar la máquina virtual" off
+     1 "Hacer copia de seguridad de la instalación anterior." on
+     2 "Crear las particiones." on
+     3 "Formatear las particiones." on
+     4 "Marcar la partición EFI como esp." on
+     5 "Determinar la última versión de UnraidOS." on
+     6 "Montar las particiones." on
+     7 "Descargar el archivo zip con UnraidOS." on
+     8 "Descomprimir el archivo zip con UnraidOS." on
+     9 "Modificar el hostname del servidor unraid." on
+    10 "Modificar el uso horario del servidor." on
+    11 "Configurar IP fija para el servidor." on
+    12 "Copiar el script de instalación de los o-scripts." on
+    13 "Copiar el script de preparación de UnraidOS para funcionar como una MV de Proxmox." on
+    14 "Copiar el script de preparación de UnraidOS para funcionar como router Baremetal." on
+    15 "Mover copia de seguridad de la instalación anterior a la nueva instalación." on
+    16 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados." on
+    17 "Apagar la máquina virtual." off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
 
@@ -210,6 +211,40 @@ menu=(dialog --checklist "Instalación de UnraidOS X86:" 30 100 20)
             fi
           sudo unzip /UnraidOS/PartEFI/unraid.zip -d /UnraidOS/PartEFI/
           sudo mv /UnraidOS/PartEFI/EFI-/  /UnraidOS/PartEFI/EFI/
+
+        ;;
+
+        9)
+
+          echo ""
+          echo "  Modificando el hostname del servidor Unraid..."
+          echo ""
+          sudo sed -i -e 's|Tower|$vNombreServidor|g' /UnraidOS/PartEFI/config/ident.cfg
+
+        ;;
+
+        10)
+
+          echo ""
+          echo "  Modificando el uso horario del servidor..."
+          echo ""
+          sudo sed -i -e 's|America/Los_Angeles|Europe/Madrid|g' /UnraidOS/PartEFI/config/ident.cfg
+
+        ;;
+
+        11)
+
+          echo ""
+          echo "  Configurando IP fija para el servidor..."
+          echo ""
+          echo '# Generated network settings'  > /UnraidOS/PartEFI/config/network.cfg
+          echo 'USE_DHCP="no"'                >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'IPADDR="192.168.1.252"'       >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'NETMASK="255.255.255.0"'      >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'GATEWAY="192.168.1.1"'        >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'BONDING="yes"'                >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'BRIDGING="yes"'               >> /UnraidOS/PartEFI/config/network.cfg
+          echo 'DNS_SERVER1="192.168.1.1"'    >> /UnraidOS/PartEFI/config/network.cfg
 
         ;;
 
