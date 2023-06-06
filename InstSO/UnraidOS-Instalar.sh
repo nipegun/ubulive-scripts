@@ -209,6 +209,7 @@ menu=(dialog --checklist "Instalación de UnraidOS X86:" 30 100 20)
               echo ""
             fi
           sudo unzip /UnraidOS/PartEFI/unraid.zip -d /UnraidOS/PartEFI/
+          sudo mv /UnraidOS/PartEFI/EFI-/  /UnraidOS/PartEFI/EFI/
 
         ;;
 
