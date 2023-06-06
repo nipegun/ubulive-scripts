@@ -113,7 +113,7 @@ menu=(dialog --checklist "Instalación de UnraidOS X86:" 30 100 20)
           # Crear tabla de particiones GPT
             sudo parted -s $vPrimerDisco mklabel gpt
           # Crear la partición EFI
-            sudo parted -s $vPrimerDisco mkpart EFI ext4 1MiB 4096MiB
+            sudo parted -s $vPrimerDisco mkpart UNRAID ext4 1MiB 4096MiB
           # Crear la partición de intercambio
             sudo parted -s $vPrimerDisco mkpart Intercambio ext4 4096MiB 100%
 
@@ -125,7 +125,7 @@ menu=(dialog --checklist "Instalación de UnraidOS X86:" 30 100 20)
           echo "  Formateando las particiones..."
           echo ""
           # Formatear la partición para EFI como fat32
-            sudo mkfs -t vfat -F 32 -n EFI $vPrimerDisco"1"
+            sudo mkfs -t vfat -F 32 -n UNRAID $vPrimerDisco"1"
           # Formatear la partición para Intercambio como swap
             sudo mkswap -L Intercambio $vPrimerDisco"2"
 
