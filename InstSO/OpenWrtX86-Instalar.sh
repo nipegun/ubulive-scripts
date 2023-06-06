@@ -300,8 +300,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
           sudo su -c 'echo "  option peerdns '"'0'"'"         >> /OpenWrt/PartEFI/scripts/network'
           sudo su -c 'echo "  list dns '"'9.9.9.9'"'"         >> /OpenWrt/PartEFI/scripts/network'
           sudo su -c 'echo "  list dns '"'149.112.112.112'"'" >> /OpenWrt/PartEFI/scripts/network'
-          sudo rm -rf                               /OpenWrt/PartExt4/etc/config/network
+          sudo rm -f                               /OpenWrt/PartExt4/etc/config/network
           sudo cp /OpenWrt/PartEFI/scripts/network /OpenWrt/PartExt4/etc/config/
+          sudo rm -rf /OpenWrt/PartEFI/scripts/
 
         ;;
 
@@ -324,6 +325,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo "rm -rf /root/scripts/1-InstalarPaquetes.sh"                                                                    >> /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
           echo "reboot"                                                                                                        >> /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
           sudo chmod +x                                                                                                           /OpenWrt/PartExt4/root/scripts/1-InstalarPaquetes.sh
+
         ;;
 
         12)
