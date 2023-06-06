@@ -160,7 +160,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               echo ""
             fi
   
-          VersOpenWrt=$(curl --silent https://downloads.openwrt.org | grep rchive | grep eleases | grep OpenWrt | grep $vNumUltVer | head -n 1 | cut -d'/' -f 5)
+          VersOpenWrt=$(curl -sL https://downloads.openwrt.org | grep eleases | grep 22 | head -n1 | cut -d'"' -f2 | cut -d'/' -f2)
 
           echo ""
           echo "    La última versión estable de OpenWrt 22 es la $VersOpenWrt."
