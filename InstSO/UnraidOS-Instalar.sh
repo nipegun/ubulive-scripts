@@ -295,3 +295,4 @@ echo ""
 echo "  Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
 echo " ----------"
 echo ""
+
