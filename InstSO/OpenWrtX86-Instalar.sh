@@ -67,8 +67,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
     13 "Copiar el script de preparación de OpenWrt para funcionar como una MV de Proxmox" on
     14 "Copiar el script de preparación de OpenWrt para funcionar como router Baremetal" on
     15 "Mover copia de seguridad de la instalación anterior a la nueva instalación" on
-    16 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
-    17 "Apagar la máquina virtual" off
+    16 "Descargar paquetes ipk esenciales a la partición EFI" on
+    17 "Instalar GPartEd y Midnight Commander para poder visualizar los cambios realizados" on
+    18 "Apagar la máquina virtual" off
   )
   choices=$("${menu[@]}" "${opciones[@]}" 2>&1 >/dev/tty)
 
@@ -117,11 +118,11 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
           # Crear tabla de particiones GPT
             sudo parted -s $vPrimerDisco mklabel gpt
           # Crear la partición EFI
-            sudo parted -s $vPrimerDisco mkpart EFI ext4 1MiB 201MiB
+            sudo parted -s $vPrimerDisco mkpart EFI ext4 1MiB 1024MiB
           # Crear la partición ext4
-            sudo parted -s $vPrimerDisco mkpart OpenWrt ext4 201MiB 24580MiB
+            sudo parted -s $vPrimerDisco mkpart OpenWrt ext4 1025MiB 28000MiB
           # Crear la partición de intercambio
-            sudo parted -s $vPrimerDisco mkpart Intercambio ext4 24580MiB 100%
+            sudo parted -s $vPrimerDisco mkpart Intercambio ext4 28001MiB 100%
 
         ;;
 
@@ -395,6 +396,107 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
         16)
 
           echo ""
+          echo "  Descargando paquetes ipk esenciales a la partición EFI..."
+          echo ""
+          # Crear carpeta en la nueva partición
+            sudo mkdir -p /OpenWrt/PartEFI/Paquetes/
+          # Descargar paquetes de controladores de ethernet
+	    # Ethernet
+              hostapd-openssl
+              hostapd-common
+              kmod-cfg80211
+              kmod-mac80211
+            # Driver WiFi
+	      kmod-ath9k
+              kmod-ath10k-ct
+	      ath10k-firmware-qca9984-ct-htt
+              kmod-ath
+            # SFP
+              kmod-sfp
+            # USB 2
+              kmod-usb2
+              kmod-usb-core
+              kmod-usb-ehci
+              kmod-usb-ohci
+              usbutils
+              usbids
+            # USB 3
+              kmod-usb3
+            # NVMe
+              kmod-nvme
+	    # PCI
+              pciutils
+              pciids
+            # Software
+              # Herramientas para terminal (mandatorias para el funcionamiento del sistema)
+                base-files
+                uci
+                opkg
+                dropbear
+            # Herramientas para terminal (extra)
+              mc
+              nano
+              curl
+              git
+              hwclock
+            # Web
+              luci
+              luci-i18n-base-es
+              adblock
+              luci-app-adblock
+              luci-i18n-adblock-es
+              tcpdump-mini
+              msmtp
+            # DDNS
+              ddns-scripts
+              ddns-scripts-services
+              luci-app-ddns
+              luci-i18n-ddns-es
+            # Cortafuegos
+              firewall4
+              luci-app-firewall
+              luci-i18n-firewall-es
+	    # OPKG
+              opkg
+              luci-app-opkg
+              luci-i18n-opkg-es
+              luci-app-upnp
+              luci-i18n-upnp-es
+            # Programación Wifi
+              wifischedule
+              luci-app-wifischedule
+              luci-i18n-wifischedule-es
+            # Wake on LAN
+              luci-app-wol (Instala la dependencia etherwake)
+              luci-i18n-wol-es
+            # VPN
+              kmod-wireguard
+              wireguard-tools
+              luci-proto-wireguard
+ luci-app-wireguard
+ luci-i18n-wireguard-es
+              qrencode
+            # Acceso a volúmenes
+              e2fsprogs
+              f2fsck
+              fstools
+              mkf2fs
+              blkid
+              block-mount
+              blockd
+              blockdev
+              dosfstools
+              fdisk
+              kmod-fs-vfat
+              kmod-usb-storage
+              parted
+              nand-utils
+
+        ;;
+
+        17)
+
+          echo ""
           echo "  Instalando Midnight Commander para poder visualizar los cambios realizados..."
           echo ""
           sudo apt-get -y install mc
@@ -402,7 +504,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
         ;;
 
-        17)
+        18)
 
           echo ""
           echo "  Apagando la máquina virtual..."
