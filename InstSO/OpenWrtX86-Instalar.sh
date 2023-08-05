@@ -102,6 +102,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
             sudo rm -rf  /OpenWrt/PartEFI/
             sudo umount /OpenWrt/PartExt4/
             sudo rm -rf  /OpenWrt/PartEFI/
+
         ;;
 
         2)
@@ -165,10 +166,10 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               echo ""
             fi
   
-          VersOpenWrt=$(curl -sL https://downloads.openwrt.org | grep eleases | grep 22 | head -n1 | cut -d'"' -f2 | cut -d'/' -f2)
+          vUltVersOpenWrtX86Estable=$(curl -sL https://downloads.openwrt.org | grep eleases | grep -v rchive | grep -v rc | head -n1 | cut -d'"' -f2 | cut -d'/' -f2)
 
           echo ""
-          echo "    La última versión estable de OpenWrt 22 es la $VersOpenWrt."
+          echo "    La última versión estable de OpenWrt es la $vUltVersOpenWrtX86Estable."
           echo ""
 
         ;;
@@ -231,7 +232,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
         9)
 
           echo ""
-          echo "  Creando la estructura de carpetas y archivos en la partición ext4 con OpenWrt $VersOpenWrt..."
+          echo "  Creando la estructura de carpetas y archivos en la partición ext4 con OpenWrt $vUltVersOpenWrtX86Estable..."
           echo ""
           echo ""
           echo "    Borrando el contenido de la partición ext4..."
@@ -251,13 +252,13 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               sudo apt-get -y install wget
               echo ""
             fi
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
+          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/openwrt-$vUltVersOpenWrtX86Estable-x86-64-generic-kernel.bin -O /OpenWrt/PartExt4/boot/generic-kernel.bin
 
           echo ""
           echo "    Bajando el archivo con el sistema root..."
           echo ""
           sudo rm -rf /OpenWrt/PartEFI/rootfs.tar.gz
-          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$VersOpenWrt/targets/x86/64/openwrt-$VersOpenWrt-x86-64-rootfs.tar.gz -O /OpenWrt/PartEFI/rootfs.tar.gz
+          sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/openwrt-$vUltVersOpenWrtX86Estable-x86-64-rootfs.tar.gz -O /OpenWrt/PartEFI/rootfs.tar.gz
 
           echo ""
           echo "    Descomprimiendo el sistema de archivos root en la partición ext4..."
@@ -400,97 +401,144 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
           echo ""
           # Crear carpeta en la nueva partición
             sudo mkdir -p /OpenWrt/PartEFI/Paquetes/
-          # Descargar paquetes de controladores de ethernet
+          # Descargar paquetes
+	    # PCI (Por orden de dependencias)
+              cd /OpenWrt/PartEFI/Paquetes/
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$(    curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep libc)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$(    curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep zlib)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/$(       curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep libkmod)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/$(       curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep libgcc1)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/$(       curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep libpthread)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep librt)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep libpci)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciids)
+	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciutils)
 	    # Ethernet
-              hostapd-openssl
-              hostapd-common
-              kmod-cfg80211
-              kmod-mac80211
+              vKMOD-IGB=$()
+                   curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hostapd-openssl
+
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hostapd-openssl
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hostapd-common
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-cfg80211
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-mac80211
             # Driver WiFi
-	      kmod-ath9k
-              kmod-ath10k-ct
-	      ath10k-firmware-qca9984-ct-htt
-              kmod-ath
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ath9k
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ath10k-ct
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep ath10k-firmware-qca9984-ct-htt
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ath
             # SFP
-              kmod-sfp
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-sfp
             # USB 2
-              kmod-usb2
-              kmod-usb-core
-              kmod-usb-ehci
-              kmod-usb-ohci
-              usbutils
-              usbids
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb2
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb-core
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb-ehci
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb-ohci
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep usbutils
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep usbids
             # USB 3
-              kmod-usb3
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb3
             # NVMe
-              kmod-nvme
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-nvme
 	    # PCI
-              pciutils
-              pciids
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciutils
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciids
             # Software
               # Herramientas para terminal (mandatorias para el funcionamiento del sistema)
-                base-files
-                uci
-                opkg
-                dropbear
+                curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/      | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep base-files
+                curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/   | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep uci
+                curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/   | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep opkg
+                curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/      | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep dropbear
             # Herramientas para terminal (extra)
-              mc
-              nano
-              curl
-              git
-              hwclock
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep mc
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep nano
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep curl
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep git
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hwclock
             # Web
-              luci
-              luci-i18n-base-es
-              adblock
-              luci-app-adblock
-              luci-i18n-adblock-es
-              tcpdump-mini
-              msmtp
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-base-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep adblock
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-adblock
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-adblock-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep tcpdump-mini
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep msmtp
             # DDNS
-              ddns-scripts
-              ddns-scripts-services
-              luci-app-ddns
-              luci-i18n-ddns-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep ddns-scripts
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep ddns-scripts-services
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-ddns
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-ddns-es
             # Cortafuegos
-              firewall4
-              luci-app-firewall
-              luci-i18n-firewall-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep firewall4
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-firewall
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-firewall-es
 	    # OPKG
-              opkg
-              luci-app-opkg
-              luci-i18n-opkg-es
-              luci-app-upnp
-              luci-i18n-upnp-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep opkg
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-opkg
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-opkg-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-upnp
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-upnp-es
             # Programación Wifi
-              wifischedule
-              luci-app-wifischedule
-              luci-i18n-wifischedule-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep wifischedule
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-wifischedule
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wifischedule-es
             # Wake on LAN
-              luci-app-wol (Instala la dependencia etherwake)
-              luci-i18n-wol-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-wol
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep etherwake
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wol-es
             # VPN
-              kmod-wireguard
-              wireguard-tools
-              luci-proto-wireguard
- luci-app-wireguard
- luci-i18n-wireguard-es
-              qrencode
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-wireguard
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep wireguard-tools
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-proto-wireguard
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-wireguard
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wireguard-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep qrencode
             # Acceso a volúmenes
-              e2fsprogs
-              f2fsck
-              fstools
-              mkf2fs
-              blkid
-              block-mount
-              blockd
-              blockdev
-              dosfstools
-              fdisk
-              kmod-fs-vfat
-              kmod-usb-storage
-              parted
-              nand-utils
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep e2fsprogs
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep f2fsck
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep fstools
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep blkid
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep dosfstools
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep fdisk
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-fs-vfat
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb-storage
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep parted
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep nand-utils
+            # Otros
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-adblock-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-base-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-firewall-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-opkg-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-upnp-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wifischedule-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wol-es
+
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep parted
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciids
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciutils
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep wifischedule
+
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep fdisk
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep fstools
+
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hwclock
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-fs-vfat
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-usb-storage
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-adblock
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-firewall
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-opkg
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-upnp
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-wifischedule
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-app-wol
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-adblock-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-base-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-firewall-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-opkg-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-upnp-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wifischedule-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/x/        | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep luci-i18n-wol-es
+              curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/luci/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep curl
+
+           # https://downloads.openwrt.org/releases/22.03.5/packages/x86_64/
 
         ;;
 
@@ -528,4 +576,3 @@ echo ""
 echo "  Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
 echo " ----------"
 echo ""
-
