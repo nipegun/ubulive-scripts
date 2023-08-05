@@ -415,9 +415,11 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciids)
 	      wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciutils)
 	    # Ethernet
-              # Intel I219-V
+              # Intel I219-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/intel-l219v/
                 cd /OpenWrt/PartEFI/Paquetes/intel-l219v/
+	        wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ptp | grep -v gpio | grep -v disc)
+	        wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ptp)
 	        wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-e1000e)
 
 	      vKMOD-IGB=$()
