@@ -52,42 +52,57 @@ echo ""
 
 # Determinar el tipo de procesador
   # Sandy Bridge o Ivy Bridge
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC.aml
     # SSDT-IMEI.aml
     # SSDT-CPU-PM-aml
     # SSDT-PNLF.aml
   # Haswell o Broadwell
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
   # Skylake, Kaby Lake, KabyLake-R, Kaby Lake-G o Amber Lake Y (8th)
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC-USBX.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
   # Coffee Lake, Whiskey Lake o Coffee Lake-R
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-PLUG.aml
     # SSDT-PMC.aml
     # SSDT-PNLF.aml
   # Comet Lake o Amber Lake Y (10th)
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
   # Ice Lake
-    echo ""
+    echo "Están en el orden a ser cargados"
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-RHUB.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
 
+
+# Drivers
+  # OpenRunTime.efi
+  # OpenHFSPlus.efi
+  # ResetNvramEntry.efi
+
+# Kexts (En el orden correcto)
+  # Lilu.kext
+  # VirtualSMC.kext
+  # WhateverGreen.kext
+  # AppleALC.kext
+  # USBInjectAll.kext
+  # VoodooPS2Controller.kext
+  # RealtekRTL8111.kext
+  
 menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
   opciones=(
      1 "Hacer copia de seguridad de la instalación anterior" on
