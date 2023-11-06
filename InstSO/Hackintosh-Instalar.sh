@@ -51,43 +51,87 @@ echo ""
     xrandr --output $vNombreDisplay --mode 1024x768
 
 # Determinar el tipo de procesador
-  # Sandy Bridge o Ivy Bridge
+
+  # Sandy Bridge e Ivy Bridge
+    echo ""
+    echo "  Preparando DSDT para arquitectura Sandy Bridge e Ivy Bridge..."
+    echo "    Sandy Bridge: Generación del Core i7-2700K"
+    echo "    Ivy Brige: Generación del Core i7-3700K"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC.aml
     # SSDT-IMEI.aml
     # SSDT-CPU-PM-aml
     # SSDT-PNLF.aml
-  # Haswell o Broadwell
+
+  # Haswell y Broadwell
+    echo ""
+    echo "  Preparando DSDT para arquitectura Haswell y Broadwell..."
+    echo "    Haswell: Generación del Core i7-4700K"
+    echo "    Broadwell: Generación del Core i7-5700K"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
-  # Skylake, Kaby Lake, KabyLake-R, Kaby Lake-G o Amber Lake Y (8th)
+
+  # Skylake, Kaby Lake, Kaby Lake-R, Kaby Lake-G y Amber Lake Y (8th)
+    echo ""
+    echo "  Preparando DSDT para arquitectura Skylake, Kaby Lake, Kaby Lake-R, Kaby Lake-G y Amber Lake Y (8th)..."
+    echo "    Skylake: Generación del Core i7-6700K"
+    echo "    Kaby Lake: Generación del Core i7-7700K"
+    echo "    Kaby Lake-R: Generación del Core i7-8xxxU"
+    echo "    Kaby Lake-G: Generación del Core i7-8xxxG"
+    echo "    Amber Lake Y (8th): Generación del Core i7-8xxxY"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC-USBX.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
-  # Coffee Lake, Whiskey Lake o Coffee Lake-R
+
+  # Coffee Lake, Whiskey Lake y Coffee Lake-R
+    echo ""
+    echo "  Preparando DSDT para arquitectura Cofee Lake, Whiskey Lake y Coffee Lake-R..."
+    echo "    Cofee Lake: Generación del Core i7-8700k"
+    echo "    Whiskey Lake: Generación del Core i7-8xxxU"
+    echo "    Coffee Lake-R: Generación del Core i7-9700k"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-PLUG.aml
     # SSDT-PMC.aml
     # SSDT-PNLF.aml
-  # Comet Lake o Amber Lake Y (10th)
+
+  # Comet Lake y Amber Lake Y (10th)
+    echo ""
+    echo "  Preparando DSDT para arquitectura Comet Lake y Amber Lake Y (10th)..."
+    echo "    Comet Lake: Generación del Core i7-10700k"
+    echo "    Amber Lake Y (10th): Generación del Core i7-10xxxY e i7-8xxxY"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
+
   # Ice Lake
+    echo ""
+    echo "  Preparando DSDT para arquitectura Ice Lake..."
+    echo "    Ice Lake: Generación del Core i7-10xxxGx"
+    echo ""
     echo "Están en el orden a ser cargados"
+    echo ""
     # SSDT-EC-USBX.aml
     # SSDT-AWAC-DISABLE.aml
     # SSDT-RHUB.aml
     # SSDT-PLUG.aml
     # SSDT-PNLF.aml
-
 
 # Drivers
   # OpenRunTime.efi
