@@ -435,8 +435,8 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo
 	    # Ethernet
               # Intel I219-V (Por orden de dependencias)
-                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/intel-l219v/
-                cd /OpenWrt/PartEFI/Paquetes/intel-l219v/
+                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
+                cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
 		# kmod-pps
                   vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-pps | grep -v gpio | grep -v disc)
 	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
@@ -446,7 +446,20 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	        # kmod-e1000e
 	          vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-e1000e)
 	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
+              # Intel I225-V (Por orden de dependencias)
+                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
+                cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
+		# kmod-igc
+                  vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-igc)
+	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
+	      # Realtek RTL8125 (Por orden de dependencias)
+                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/
+                cd /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/
+		# kmod-r8169
+                  vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-r8169)
+	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
 
+    
 	      vKMOD-IGB=$()
                    curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hostapd-openssl
 
