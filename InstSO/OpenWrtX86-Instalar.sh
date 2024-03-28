@@ -220,7 +220,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
           sudo su -c "echo 'set timeout="'"1"'"'                                                                                                                 >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo ''                                                                                                                                    >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo 'menuentry "'"OpenWrt"'" {'                                                                                                           >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
-          sudo su -c 'echo "  set root='"'(hd0,2)'"'"                                                                                                            >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg'
+          sudo su -c 'echo "  search --no-floppy --set=root --label OpenWrt --hint hd0,gpt2"                                                                     >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg'
           sudo su -c "echo '  linux /boot/generic-kernel.bin root=/dev/sda2 rootfstype=ext4 rootwait console=tty0 console=ttyS0,115200n8 noinitrd'               >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo '}'                                                                                                                                   >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
           sudo su -c "echo 'menuentry "'"OpenWrt (failsafe)"'" {'                                                                                                >> /OpenWrt/PartEFI/EFI/OpenWrt/grub.cfg"
@@ -437,6 +437,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               # Intel I219-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/intel-l219v/
                 cd /OpenWrt/PartEFI/Paquetes/intel-l219v/
+		# kmod-pps
+                  vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-pps | grep -v gpio | grep -v disc)
+	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
 		# kmod-ptp
                   vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-ptp | grep -v gpio | grep -v disc)
 	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
