@@ -433,7 +433,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	      # pciutils
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep pciutils)
                 wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo
+
 	    # Ethernet
+
               # Intel I219-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
                 cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
@@ -459,6 +461,17 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                   vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-r8169)
 	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
 
+	    # Wireless
+
+              # Mediatek MT7915E (Por orden de dependencias)
+                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Wireless-Mediatek-MT7915E/
+                cd /OpenWrt/PartEFI/Paquetes/Wireless-Mediatek-MT7915E/
+		# kmod-mt7915-firmware
+                  vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-mt7915-firmware)
+	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
+		# kmod-mt7915e
+                  vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep kmod-mt7915e)
+	          wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
     
 	      vKMOD-IGB=$()
                    curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/     | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep hostapd-openssl
