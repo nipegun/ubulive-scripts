@@ -409,7 +409,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
 	    # lspci (Por orden de dependencias)
               sudo mkdir -p /OpenWrt/PartEFI/Paquetes/lspci/
-              mkdir -p /OpenWrt/PartEFI/Paquetes/lspci/
+	      rm -rf /OpenWrt/PartEFI/Paquetes/*
               cd /OpenWrt/PartEFI/Paquetes/lspci/
 	      # libc
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
@@ -482,9 +482,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 cd /OpenWrt/PartEFI/Paquetes/Wireless/
 		# hostapd
                   vNomArchivo=$(curl -sL curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "hostapd-common_")
-                  sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/base/$vNomArchivo
+                  sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
                   vNomArchivo=$(curl -sL curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "hostapd-openssl_")
-                  sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/base/$vNomArchivo
+                  sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
 		# 80211
                   vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/kmods/$vVersKernComp/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-cfg80211_")
                   sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo
