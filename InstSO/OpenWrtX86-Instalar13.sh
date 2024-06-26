@@ -485,9 +485,9 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	          vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-e1000e_")
 	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
                 # Renombrar archivos
-                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-pps_*.ipk"    -exec mv {} "1-kmod-pps.ipk"    \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-ptp_*.ipk"    -exec mv {} "2-kmod-ptp.ipk"    \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-e1000e_*.ipk" -exec mv {} "3-kmod-e1000e.ipk" \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/ -type f -name "kmod-pps_*.ipk"    -exec mv {} "1-kmod-pps.ipk"    \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/ -type f -name "kmod-ptp_*.ipk"    -exec mv {} "2-kmod-ptp.ipk"    \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/ -type f -name "kmod-e1000e_*.ipk" -exec mv {} "3-kmod-e1000e.ipk" \;
 
               # Intel I225-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
@@ -495,6 +495,8 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 		# kmod-igc
                   vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-igc_")
 	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # Renombrar archivos
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/ -type f -name "kmod-igc_*.ipk"    -exec mv {} "1-kmod-igc.ipk"    \;
 
               # Intel gigabit
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Intel-Gigabit/
