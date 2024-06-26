@@ -625,26 +625,51 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/
                 cd /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/
 		# kmod-mii
-                  vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-mii_")
-	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
-                # r8169-firmware ( depende de     libc, librt, libpthread)
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-mii_")
+	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+	        # libgcc1
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libgcc1_")
+                  sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+	        # libpthread (Depende de libgcc1)
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libpthread_")
+                  sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # librt (Depende de libpthread)
+	          vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "librt_")
+                  sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # r8169-firmware ( depende de libc, librt, libpthread)
                   vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "r8169-firmware_")
 	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
-		# kmod-phy-realtek (depende de     kernel, kmod-libphy)
+                # kmod-libphy (Depende de kernel)
+                  vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-libphy_")
+	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+		# kmod-phy-realtek (depende de kernel, kmod-libphy)
                   vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-phy-realtek_")
 	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
-                # kmod-mdio-devres (depende de     kernel, kmod-libphy, kmod-of-mdio)
+	        # kmod-fixed-phy (Depende deernel, kmod-libphy)
+                  vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-fixed-phy_")
+	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # kmod-of-mdio (Depende de kernel, kmod-libphy, kmod-fixed-phy)
+                  vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-of-mdio_")
+	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # kmod-mdio-devres (depende de kernel, kmod-libphy, kmod-of-mdio)
                   vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-mdio-devres_")
 	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
 		# kmod-r8169 (Depende de kernel, kmod-mii, r8169-firmware)
                   vNomArchivo=$(curl -sL             https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-r8169_")
 	           sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
                # Renombrar archivos
-                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-mii_*.ipk"         -exec mv {} "1-kmod-mii.ipk"         \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "r8169-firmware_*.ipk"   -exec mv {} "2-r8169-firmware.ipk"   \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-phy-realtek_*.ipk" -exec mv {} "3-kmod-phy-realtek.ipk" \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-mdio-devres_*.ipk" -exec mv {} "4-kmod-mdio-devres.ipk" \;
-                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-r8169_*.ipk"       -exec mv {} "5-kmod-r8169.ipk"       \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-mii_*.ipk"         -exec mv {} "01-kmod-mii.ipk"         \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "libgcc1_*.ipk"          -exec mv {} "02-libgcc1.ipk"          \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "libpthread_*.ipk"       -exec mv {} "03-libpthread.ipk"       \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "librt_*.ipk"            -exec mv {} "04-librt.ipk"            \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "r8169-firmware_*.ipk"   -exec mv {} "05-r8169-firmware.ipk"   \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-libphy_*.ipk"      -exec mv {} "06-kmod-libphy.ipk"      \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-phy-realtek_*.ipk" -exec mv {} "07-kmod-phy-realtek.ipk" \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-fixed-phy_*.ipk"   -exec mv {} "08-kmod-fixed-phy.ipk"   \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-of-mdio_*.ipk"     -exec mv {} "09-kmod-of-mdio.ipk"     \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-mdio-devres_*.ipk" -exec mv {} "10-kmod-mdio-devres.ipk" \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/ -type f -name "kmod-r8169_*.ipk"       -exec mv {} "11-kmod-r8169.ipk"       \;
+
 	    # Wireless
 
               # Paquetes wireless
