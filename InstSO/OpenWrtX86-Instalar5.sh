@@ -409,6 +409,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
 	    # lspci (Por orden de dependencias)
               sudo mkdir -p /OpenWrt/PartEFI/Paquetes/lspci/
+              mkdir -p /OpenWrt/PartEFI/Paquetes/lspci/
               cd /OpenWrt/PartEFI/Paquetes/lspci/
 	      # libc
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
@@ -653,7 +654,7 @@ echo "  Ejecución del script, finalizada."
 echo ""
 echo "  Reinicia el sistema con:"
 echo "  sudo shutdown -r now"
-echo ""
+echo ""          vUltVersOpenWrtX86Estable=$(curl -sL https://downloads.openwrt.org | grep eleases | grep -v rchive | grep -v rc | head -n1 | cut -d'"' -f2 | cut -d'/' -f2)
 echo "  Recuerda quitar el DVD de la unidad antes de que vuelva a arrancar la máquina virtual."
 echo " ----------"
 echo ""
