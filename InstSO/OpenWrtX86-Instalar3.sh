@@ -410,7 +410,8 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
               cd /OpenWrt/PartEFI/Paquetes/lspci/
 	      # libc
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
-                wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo
+                                                               https://downloads.openwrt.org/releases/23.05.3/packages/x86_64/base/464xlat_13_x86_64.ipk
+                wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
               # zlib
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "zlib_" | grep -v dev)
                 wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo
