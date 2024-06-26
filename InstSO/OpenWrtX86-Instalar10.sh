@@ -438,7 +438,34 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	      # pciutils
                 vNomArchivo=$(curl -sL https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "pciutils_")
                 sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo
+		
+              # Renombrar archivos
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc*.ipk"       -exec mv {} "1-libc.ipk"       \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib*.ipk"       -exec mv {} "2-zlib.ipk"       \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread*.ipk" -exec mv {} "5-libpthread.ipk" \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt*.ipk"      -exec mv {} "6-librt.ipk"      \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci*.ipk"     -exec mv {} "7-libpci.ipk"     \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids*.ipk"     -exec mv {} "8-pciids.ipk"     \;
+                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
 
+
+
+       
+                #find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "*.ipk" | while read -r vArchivo; do
+                #  # Obtener el nombre base del archivo (sin la ruta)
+                #    vNombreViejo=$(basename "$vArchivo")
+                #  # Obtener el nombre del archivo antes del primer _
+                #    vNombreNuevo=$(echo "$vNombreViejo" | sed 's/_.*//').ipk
+                #  # Obtener la ruta del directorio del archivo
+                #    vCarpeta=$(dirname "$vArchivo")
+                #  # Renombrar el archivo
+                #    mv "$vArchivo" "$vCarpeta/$vNombreNuevo"
+		#    echo "Renombrado: $vArchivo -> $vCarpeta/$vNombreNuevo"
+                #done
+		
+	 
 	    # Ethernet
 
               # Intel I219-V (Por orden de dependencias)
