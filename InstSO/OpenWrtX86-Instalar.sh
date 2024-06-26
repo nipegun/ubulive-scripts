@@ -439,16 +439,28 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "pciutils_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
               # Renombrar archivos
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc_*.ipk"       -exec mv {} "1-libc.ipk"       \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib_*.ipk"       -exec mv {} "2-zlib.ipk"       \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod_*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1_*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread_*.ipk" -exec mv {} "5-libpthread.ipk" \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt_*.ipk"      -exec mv {} "6-librt.ipk"      \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci_*.ipk"     -exec mv {} "7-libpci.ipk"     \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids_*.ipk"     -exec mv {} "8-pciids.ipk"     \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils_*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
-
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc_*.ipk"       -exec mv {} "01-libc.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib_*.ipk"       -exec mv {} "02-zlib.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod_*.ipk"    -exec mv {} "03-libkmod.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1_*.ipk"    -exec mv {} "04-libgcc1.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread_*.ipk" -exec mv {} "05-libpthread.ipk" \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt_*.ipk"      -exec mv {} "06-librt.ipk"      \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci_*.ipk"     -exec mv {} "07-libpci.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids_*.ipk"     -exec mv {} "08-pciids.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils_*.ipk"   -exec mv {} "09-pciutils.ipk"   \;
+              # Preparar script de instalación de lspci
+	        sudo echo '#!/bin/sh'                                            > /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+	        sudo echo ''                                                    >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/01-libc.ipk'       >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/02-zlib.ipk'       >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/03-libkmod.ipk'    >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/04-libgcc1.ipk'    >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/05-libpthread.ipk' >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/06-librt.ipk'      >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/07-libpci.ipk'     >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/08-pciids.ipk'     >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo echo 'opkg install /boot/Paquetes/lspci/09-pciutils.ipk'   >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
+                sudo chmod +x                                                      /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
             # mc
 	      # libc
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
@@ -458,17 +470,17 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
 	      # libpthread (Depende de libgcc1)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libpthread_")
-	        sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
               # librt (Depende de libpthread)
 	        vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "librt_")
-	        sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
               # zlib (Depende de libc)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "zlib_" | grep -v dev)
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
-	      # libffi (Depende de libc, librt, libpthread)
+	      # libffi (Depende de libc)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libffi_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
-	      # libattr (Depende de libc, librt, libpthread)
+	      # libattr (Depende de libc)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libattr_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
               # libpcre2 (Depende de libc)
@@ -480,17 +492,66 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	      # terminfo (Depende de libc)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "terminfo_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
-	      # libncurses6 (Depende de libc, librt, libpthread, terminfo)
+	      # libncurses6 (Depende de libc, terminfo)
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libncurses6_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
-	      # libblkid1 ()
+	      # libuuid1 (Depende de libc, librt)
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libuuid1_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
+	      # libblkid1 (Depende de libc, libuuid1)
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libblkid1_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
 	      # libmount1 (Depende de libc, libblkid1)
-              # mc (depende de libc, librt, libpthread, glib2, libncurses6, libmount1, libssh2-1)
-
-
-
-
-       
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libmount1_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
+	      # libopenssl3 (Depende de libc)
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libopenssl3_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
+	      # libssh2-1 (Depende de libc, libopenssl3, zlib)
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libssh2-1_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
+              # mc (depende de libc, glib2, libncurses6, libmount1, libssh2-1)
+                vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "^mc_")
+                sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
+              # Renombrar archivos
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libc_*.ipk"        -exec mv {} "01-libc.ipk"        \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libgcc1_*.ipk"     -exec mv {} "02-libgcc1.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libpthread_*.ipk"  -exec mv {} "03-libpthread.ipk"  \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "librt_*.ipk"       -exec mv {} "04-librt.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "zlib_*.ipk"        -exec mv {} "05-zlib.ipk"        \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libffi_*.ipk"      -exec mv {} "06-libffi.ipk"      \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libattr_*.ipk"     -exec mv {} "07-libattr.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libpcre2_*.ipk"    -exec mv {} "08-libpcre2.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "glib2_*.ipk"       -exec mv {} "09-glib2.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "terminfo_*.ipk"    -exec mv {} "10-terminfo.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libncurses6_*.ipk" -exec mv {} "11-libncurses6.ipk" \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libuuid1_*.ipk"    -exec mv {} "12-libuuid1.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libblkid1_*.ipk"   -exec mv {} "13-libblkid1.ipk"   \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libmount1_*.ipk"   -exec mv {} "14-libmount1.ipk"   \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libopenssl3_*.ipk" -exec mv {} "15-libopenssl3.ipk" \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "libssh2-1_*.ipk"   -exec mv {} "16-libssh2-1.ipk"   \;
+                sudo find /OpenWrt/PartEFI/Paquetes/mc/ -type f -name "mc_*.ipk"          -exec mv {} "17-mc.ipk"          \;
+              # Preparar script de instalación de mc
+	        sudo echo '#!/bin/sh'                                          > /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+	        sudo echo ''                                                  >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/01-libc.ipk'        >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/02-libgcc1.ipk'     >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/03-libpthread.ipk'  >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/04-librt.ipk'       >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/05-zlib.ipk'        >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/06-libffi.ipk'      >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/07-libattr.ipk'     >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/08-libpcre2.ipk'    >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/09-glib2.ipk'       >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/10-terminfo.ipk'    >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/11-libncurses6.ipk' >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/12-libuuid1.ipk'    >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/13-libblkid1.ipk'   >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/14-libmount1.ipk'   >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/15-libopenssl3.ipk' >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/16-libssh2-1.ipk'   >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo echo 'opkg install /boot/Paquetes/mc/17-mc.ipk'          >> /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
+                sudo chmod +x                                                    /OpenWrt/PartEFI/Paquetes/mc/InstalarMC.sh
                 #find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "*.ipk" | while read -r vArchivo; do
                 #  # Obtener el nombre base del archivo (sin la ruta)
                 #    vNombreViejo=$(basename "$vArchivo")
