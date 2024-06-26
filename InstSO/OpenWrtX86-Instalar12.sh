@@ -438,17 +438,21 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	      # pciutils
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "pciutils_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo"
-		
+
               # Renombrar archivos
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc*.ipk"       -exec mv {} "1-libc.ipk"       \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib*.ipk"       -exec mv {} "2-zlib.ipk"       \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread*.ipk" -exec mv {} "5-libpthread.ipk" \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt*.ipk"      -exec mv {} "6-librt.ipk"      \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci*.ipk"     -exec mv {} "7-libpci.ipk"     \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids*.ipk"     -exec mv {} "8-pciids.ipk"     \;
-                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc_*.ipk"       -exec mv {} "1-libc.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib_*.ipk"       -exec mv {} "2-zlib.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod_*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1_*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread_*.ipk" -exec mv {} "5-libpthread.ipk" \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt_*.ipk"      -exec mv {} "6-librt.ipk"      \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci_*.ipk"     -exec mv {} "7-libpci.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids_*.ipk"     -exec mv {} "8-pciids.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils_*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
+
+            # mc
+
+
 
 
 
@@ -480,6 +484,10 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	        # kmod-e1000e
 	          vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-e1000e_")
 	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # Renombrar archivos
+                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-pps_*.ipk"    -exec mv {} "1-kmod-pps.ipk"    \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-ptp_*.ipk"    -exec mv {} "2-kmod-ptp.ipk"    \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "kmod-e1000e_*.ipk" -exec mv {} "3-kmod-e1000e.ipk" \;
 
               # Intel I225-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
