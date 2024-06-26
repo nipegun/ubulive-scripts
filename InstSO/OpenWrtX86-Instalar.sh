@@ -676,10 +676,30 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Wireless/
                 cd /OpenWrt/PartEFI/Paquetes/Wireless/
 		# hostapd
+    	          # libc
+                    vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
+                    sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                  # libpthread (Depende de libgcc1)
+                    vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libpthread_")
+                    sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                  # librt (Depende de libpthread)
+	            vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "librt_")
+                    sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
                   # hostapd-common (Depende de libc, librt, libpthread)
                     vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "hostapd-common_")
                     sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
-		  # hostapd-openssl (Depende de hostapd-common, libc, librt, libpthread, libnl-tiny1, hostapd-common, libubus, libopenssl1.1)
+		  # libnl-tiny1 (Depende de libc)
+                    vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libnl-tiny1_")
+                    sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
+                  # libssp (No depende de nada)
+
+                  # libubox (Depende de libc, libssp)
+
+                  # libubus (Depende de libc, libubox)
+
+		  # libopenssl1.1 (Depende de libc)
+
+		  # hostapd-openssl (Depende de libc, librt, libpthread, libnl-tiny1, hostapd-common, libubus, libopenssl1.1)
                     vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "hostapd-openssl_")
                     sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/base/$vNomArchivo"
 		# 80211
