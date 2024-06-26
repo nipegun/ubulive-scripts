@@ -472,7 +472,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 	 
 	    # Ethernet
 
-              # Intel I219-V (Por orden de dependencias)
+              # Ethernet Intel I219-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
                 cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/
 		# kmod-pps
@@ -489,7 +489,7 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                   sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/ -type f -name "kmod-ptp_*.ipk"    -exec mv {} "2-kmod-ptp.ipk"    \;
                   sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I219-V/ -type f -name "kmod-e1000e_*.ipk" -exec mv {} "3-kmod-e1000e.ipk" \;
 
-              # Intel I225-V (Por orden de dependencias)
+              # Ethernet Intel I225-V (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
                 cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/
 		# kmod-igc
@@ -498,12 +498,30 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 # Renombrar archivos
                   sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-I225-V/ -type f -name "kmod-igc_*.ipk"    -exec mv {} "1-kmod-igc.ipk"    \;
 
-              # Intel gigabit
-                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Intel-Gigabit/
-                cd /OpenWrt/PartEFI/Paquetes/Intel-Gigabit/
+              # Ethernet Intel gigabit (Por orden de dependencias)
+                sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/
+                cd /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/
+		# kmod-i2c-core
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-i2c-core_")
+	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # kmod-i2c-algo-bit
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-i2c-algo-bit_")
+	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # kmod-ptp
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-ptp_")
+	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+                # kmod-hwmon-core
+                  vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-hwmon-core_")
+	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
 		# kmod-igb
                   vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "kmod-igb_")
 	          sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
+             # Renombrar archivos
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/ -type f -name "kmod-i2c-core_*.ipk"     -exec mv {} "1-kmod-i2c-core.ipk"     \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/ -type f -name "kmod-i2c-algo-bit_*.ipk" -exec mv {} "2-kmod-i2c-algo-bit.ipk" \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/ -type f -name "kmod-ptp_*.ipk"          -exec mv {} "3-kmod-ptp.ipk"          \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/ -type f -name "kmod-hwmon-core_*.ipk"   -exec mv {} "4-kmod-hwmon-core.ipk"   \;
+                  sudo find /OpenWrt/PartEFI/Paquetes/Ethernet-Intel-Gigabit/ -type f -name "kmod-igb_*.ipk"          -exec mv {} "5-kmod-igb.ipk"          \;
 
 	      # Realtek RTL8125 (Por orden de dependencias)
                 sudo mkdir -p /OpenWrt/PartEFI/Paquetes/Ethernet-Realtek-RTL8125/
