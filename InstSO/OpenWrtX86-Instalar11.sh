@@ -440,15 +440,15 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 sudo wget --no-check-certificate https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/packages/x86_64/packages/$vNomArchivo
 		
               # Renombrar archivos
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc*.ipk"       -exec mv {} "1-libc.ipk"       \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib*.ipk"       -exec mv {} "2-zlib.ipk"       \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread*.ipk" -exec mv {} "5-libpthread.ipk" \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt*.ipk"      -exec mv {} "6-librt.ipk"      \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci*.ipk"     -exec mv {} "7-libpci.ipk"     \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids*.ipk"     -exec mv {} "8-pciids.ipk"     \;
-                find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libc*.ipk"       -exec mv {} "1-libc.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "zlib*.ipk"       -exec mv {} "2-zlib.ipk"       \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libkmod*.ipk"    -exec mv {} "3-libkmod.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libgcc1*.ipk"    -exec mv {} "4-libgcc1.ipk"    \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpthread*.ipk" -exec mv {} "5-libpthread.ipk" \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "librt*.ipk"      -exec mv {} "6-librt.ipk"      \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "libpci*.ipk"     -exec mv {} "7-libpci.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciids*.ipk"     -exec mv {} "8-pciids.ipk"     \;
+                sudo find /OpenWrt/PartEFI/Paquetes/lspci/ -type f -name "pciutils*.ipk"   -exec mv {} "9-pciutils.ipk"   \;
 
 
 
