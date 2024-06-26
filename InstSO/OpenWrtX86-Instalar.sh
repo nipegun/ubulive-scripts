@@ -407,9 +407,10 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
 
           # Descargar paquetes
 
+            rm -rf /OpenWrt/PartEFI/Paquetes/*
+
 	    # lspci (Por orden de dependencias)
               sudo mkdir -p /OpenWrt/PartEFI/Paquetes/lspci/
-	      rm -rf /OpenWrt/PartEFI/Paquetes/*
               cd /OpenWrt/PartEFI/Paquetes/lspci/
 	      # libc
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
@@ -462,6 +463,8 @@ menu=(dialog --checklist "Instalación de OpenWrt X86:" 30 100 20)
                 sudo echo 'opkg install /boot/Paquetes/lspci/09-pciutils.ipk'   >> /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
                 sudo chmod +x                                                      /OpenWrt/PartEFI/Paquetes/lspci/InstalarLSPCI.sh
             # mc
+              sudo mkdir -p /OpenWrt/PartEFI/Paquetes/mc/
+              cd /OpenWrt/PartEFI/Paquetes/mc/
 	      # libc
                 vNomArchivo=$(curl -sL            https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/ | sed 's|>|>\n|g' | grep href | cut -d'"' -f2 | grep "libc_")
                 sudo wget --no-check-certificate "https://downloads.openwrt.org/releases/$vUltVersOpenWrtX86Estable/targets/x86/64/packages/$vNomArchivo"
